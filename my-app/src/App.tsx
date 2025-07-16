@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
-import Dashboard from './pages/Dashboard'
+
+import { BrowserRouter } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
 
 // function App() {
@@ -34,8 +35,21 @@ import AppRoutes from "./routes/AppRoutes";
 //   )
 // }
 
+// export default function App() {
+//   return (
+//     <div className="bg-red-500 text-white text-3xl p-10">
+//       ✅ Tailwind is Working!
+//     </div>
+//   );
+// }
 
 
 export default function App() {
-  return <AppRoutes />;
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <AppRoutes />
+      <Footer />
+    </BrowserRouter>
+  );
 }

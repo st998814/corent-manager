@@ -3,4 +3,6 @@
 @tailwind utilities;
 
 
-
+/* .title {
+  @apply text-blue-500 text-2xl font-bold;
+} */

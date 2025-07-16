@@ -6,13 +6,11 @@ const Dashboard = lazy(() => import("../pages/Dashboard"));
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Suspense>
   );
 }
