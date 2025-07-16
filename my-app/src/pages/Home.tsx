@@ -29,6 +29,7 @@ import PaymentNotification from '../components/PaymentNotification';
 
 // }
 const Home: React.FC = () => {
+    // may can to use this logic to calculate other payment due date
   const initialRentDate = new Date("2025-07-18");
   const calculateNextRent = (initialDate: Date) => {
     const today = new Date();
@@ -44,7 +45,75 @@ const Home: React.FC = () => {
       status: today > nextDate ? "overdue" : "pending",
     };
   };
+  // or maybe create another variable such as "initial internet date" to calculate next internet payment due date
+  // and so on for other utilities
+
+  const initialInternetDate = new Date("2025-08-01")
+  const calculateNextInternetPayment = (initialDate: Date) => {
+    const today = new Date();
+    let nextDate = new Date(initialDate);   
+    while (nextDate <= today) {
+      nextDate.setMonth(nextDate.getMonth() + 1);
+    }
+    return {
+      amount: 85,
+      dueDate: nextDate.toLocaleDateString("zh-TW"),
+      status: today > nextDate ? "overdue" : "pending", //need to be updated based on actual status ,still think about how to do it.
+    };
+  };
+  const initialElectricityDate = new Date("2025-09-18")         
+  const calculateNextElectricityPayment = (initialDate: Date) => {  
+    const today = new Date();
+    let nextDate = new Date(initialDate);
+    while (nextDate <= today) {
+      nextDate.setMonth(nextDate.getMonth() + 3);
+    }
+    return {
+      amount: 100,
+      dueDate: nextDate.toLocaleDateString("zh-TW"),
+      status: today > nextDate ? "overdue" : "pending",
+    };
+    };
+    const initialGasDate = new Date("2025-09-22")
+  const calculateNextGasPayment = (initialDate: Date) => {
+    const today = new Date();
+    let nextDate = new Date(initialDate);
+    while (nextDate <= today) {
+      nextDate.setMonth(nextDate.getMonth() + 3);
+    }
+    return {
+      amount: 60,
+      dueDate: nextDate.toLocaleDateString("zh-TW"),
+      status: today > nextDate ? "overdue" : "pending",
+    };
+    }
+
+
+    
     const rent = calculateNextRent(initialRentDate);
+    const utilities = {
+      internet: calculateNextInternetPayment(initialInternetDate),
+      electricity: calculateNextElectricityPayment(initialElectricityDate),
+      gas: calculateNextGasPayment(initialGasDate),
+    };
+
+    // const utilities = {
+    //   internet: {
+    //     amount: 85,
+    //     dueDate: "2025-07-20",
+    //     status: "pending", //need to be updated based on actual status ,still think about how to do it.
+    //   },
+    //   electricity: {
+    //     amount: 100,
+    //     dueDate: "2025-07-22",
+    //     status: "pending", //need to be updated based on actual status ,still think about how to do it.
+    //   },
+    //   gas: {
+    //     amount: 30,
+    //     dueDate: "2025-07-25",
+    //     status: "pending", //need to be updated based on actual status ,still think about how to do it.
+    //   },
+    // };
 
 
 
@@ -59,9 +128,12 @@ const Home: React.FC = () => {
           <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
             <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
               <h6 className="capitalize dark:text-white text-center" >Payment Due Notification</h6>
-              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60">
-                <PaymentNotification rent={rent}/>
-                <i className="fa fa-arrow-up text-emerald-500"></i>
+              {/* inner card */}
+              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60" id="payment-notification">
+                
+                <PaymentNotification rent={rent} utilities={utilities}/>
+                
+                {/* <i className="fa fa-arrow-up text-emerald-500"></i> */}
                 {/* <span className="font-semibold"> Rent </span> 
                 <span className='font-semibold'>AU${rent.anount}</span>
                 <span className='font-semibold'>Due : {rent.dueDate}</span> */}
