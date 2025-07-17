@@ -3,4 +3,7 @@
 @tailwind utilities;
 
 
+#root{
+  @apply bg-gray-400;
 
+}
