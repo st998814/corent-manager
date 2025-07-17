@@ -2,7 +2,7 @@ import React from 'react';
 import './Home.css'
 import { useState, useEffect } from "react";
 import PaymentNotification from '../components/PaymentNotification';
-
+import ToggleSplit from "../components/ToggleButton";
 // const PaymentNotification=()=>{
 //     const initialRentDate=new Date("2025-07-18")
 //     const[nextRentDate, setNextRentDate] = useState(initialRentDate);
@@ -28,8 +28,14 @@ import PaymentNotification from '../components/PaymentNotification';
 
 
 // }
+
+    const splitAmount = (amount: number) => {
+      return  Math.round((amount / 3) * 100) / 100 ;       
+    }
+
 const Home: React.FC = () => {
     // may can to use this logic to calculate other payment due date
+  const [isSplit, setIsSplit] = useState(false);
   const initialRentDate = new Date("2025-07-18");
   const calculateNextRent = (initialDate: Date) => {
     const today = new Date();
@@ -56,7 +62,7 @@ const Home: React.FC = () => {
       nextDate.setMonth(nextDate.getMonth() + 1);
     }
     return {
-      amount: 85,
+      amount: 85, // example amount, can be updated
       dueDate: nextDate.toLocaleDateString("zh-TW"),
       status: today > nextDate ? "overdue" : "pending", //need to be updated based on actual status ,still think about how to do it.
     };
@@ -115,6 +121,8 @@ const Home: React.FC = () => {
     //   },
     // };
 
+    // function to show split in 3 or total amount
+
 
 
   return (
@@ -130,8 +138,8 @@ const Home: React.FC = () => {
               <h6 className="capitalize dark:text-white text-center" >Payment Due Notification</h6>
               {/* inner card */}
               <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60" id="payment-notification">
-                
-                <PaymentNotification rent={rent} utilities={utilities}/>
+
+                <PaymentNotification rent={rent} utilities={utilities} isSplit={isSplit} onToggle={setIsSplit}/>
                 
                 {/* <i className="fa fa-arrow-up text-emerald-500"></i> */}
                 {/* <span className="font-semibold"> Rent </span> 
