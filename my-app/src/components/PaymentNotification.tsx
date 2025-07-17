@@ -25,6 +25,11 @@ interface Utilities {
         status: string;
     };
 }
+
+// Define the props for the PaymentNotification component
+// This component will display the payment notification for rent and utilities
+// It will also handle the split toggle functionality
+// current father : Home.tsx
 interface PaymentNotificationProps {
   rent: Rent;
   utilities: Utilities;
@@ -49,7 +54,7 @@ const PaymentNotification: React.FC<PaymentNotificationProps> = ({
   onToggle,
 }) => {
   const splitAmount = (amount: number) =>
-    Math.round((amount / 3) * 100) / 100; // 三人平分
+    Math.round((amount / 3) * 100) / 100; 
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4">

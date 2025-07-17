@@ -29,13 +29,16 @@ import ToggleSplit from "../components/ToggleButton";
 
 // }
 
-    const splitAmount = (amount: number) => {
-      return  Math.round((amount / 3) * 100) / 100 ;       
-    }
+    // const splitAmount = (amount: number) => {
+    //   return  Math.round((amount / 3) * 100) / 100 ;       
+    // }
 
 const Home: React.FC = () => {
-    // may can to use this logic to calculate other payment due date
+    
+    // handle split toggle state
   const [isSplit, setIsSplit] = useState(false);
+
+  
   const initialRentDate = new Date("2025-07-18");
   const calculateNextRent = (initialDate: Date) => {
     const today = new Date();
@@ -137,7 +140,7 @@ const Home: React.FC = () => {
             <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
               <h6 className="capitalize dark:text-white text-center" >Payment Due Notification</h6>
               {/* inner card */}
-              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60" id="payment-notification">
+              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60" id="payment-notification ">
 
                 <PaymentNotification rent={rent} utilities={utilities} isSplit={isSplit} onToggle={setIsSplit}/>
                 
@@ -147,11 +150,11 @@ const Home: React.FC = () => {
                 <span className='font-semibold'>Due : {rent.dueDate}</span> */}
               </p>
             </div>
-            <div className="flex-auto p-4">
+            {/* <div className="flex-auto p-4">
               <div>
                 <canvas id="chart-line" height="300"></canvas>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
