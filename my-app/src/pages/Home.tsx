@@ -1,9 +1,13 @@
 import React from 'react';
 import './Home.css'
 import { useState, useEffect } from "react";
+
+// import components
 import PaymentNotification from '../components/PaymentNotification';
 import Timebar from '../components/Timebar';
+import PublicRequestCard from "../components/RequestCard";
 
+// conside home as dashboard, so it will be the main page
 
 // import ToggleSplit from "../components/ToggleButton";
 // const PaymentNotification=()=>{
@@ -145,7 +149,7 @@ const Home: React.FC = () => {
         <div className="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
           <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
             <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
-              <h6 className="capitalize dark:text-white text-center" >Payment Due Notification</h6>
+              <h6 className="text-sm font-medium text-gray-400 mb-2" >Payment Due Notification</h6>
               {/* inner card */}
               <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60" id="payment-notification ">
 
@@ -170,21 +174,22 @@ const Home: React.FC = () => {
          <div className="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
           <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
             <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
-              <h6 className="capitalize dark:text-white text-center" >Recent Activity</h6>
-              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60">
-                <i className="fa fa-arrow-up text-emerald-500"></i>
-                <span className="font-semibold"> 4% more </span> in 2021
+              <h6 className="text-sm font-medium text-gray-400 mb-2">Public Request</h6>
+              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60 " id= 'public-request'>
+                <PublicRequestCard />
+                {/* <i className="fa fa-arrow-up text-emerald-500"></i> */}
+                {/* <span className="font-semibold"> 4% more </span> in 2021 */}
               </p>
             </div>
-            <div className="flex-auto p-4">
+            {/* <div className="flex-auto p-4">
               <div>
                 <canvas id="chart-line" height="300"></canvas>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
-    </div>
+   
       
 
 
