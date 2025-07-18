@@ -2,7 +2,10 @@ import React from 'react';
 import './Home.css'
 import { useState, useEffect } from "react";
 import PaymentNotification from '../components/PaymentNotification';
-import ToggleSplit from "../components/ToggleButton";
+import Timebar from '../components/Timebar';
+
+
+// import ToggleSplit from "../components/ToggleButton";
 // const PaymentNotification=()=>{
 //     const initialRentDate=new Date("2025-07-18")
 //     const[nextRentDate, setNextRentDate] = useState(initialRentDate);
@@ -32,6 +35,8 @@ import ToggleSplit from "../components/ToggleButton";
     // const splitAmount = (amount: number) => {
     //   return  Math.round((amount / 3) * 100) / 100 ;       
     // }
+
+
 
 const Home: React.FC = () => {
     
@@ -132,6 +137,8 @@ const Home: React.FC = () => {
     <div className="p-6">
       {/* 原本的標題 */}
       <h1 className="title mb-6">Building...</h1>
+      <Timebar />
+
       
       {/* Payment Due card*/}
       <div className="flex flex-wrap mt-6 -mx-3">

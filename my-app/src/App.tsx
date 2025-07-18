@@ -1,10 +1,11 @@
 
 import './App.css'
-
-import { BrowserRouter } from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter,Routes, Route  } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
+import Login from "./pages/Login";
 
 // function App() {
 //   const [count, setCount] = useState(0)
@@ -43,12 +44,21 @@ import AppRoutes from "./routes/AppRoutes";
 //   );
 // }
 
+// interface AppRoutesProps {
+//   isLoggedIn: boolean;
+//   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
+// }
+
 
 export default function App() {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
+
+    
     <BrowserRouter>
-      <Navbar />
-      <AppRoutes />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <AppRoutes setIsLoggedIn={setIsLoggedIn} />
       <Footer />
     </BrowserRouter>
   );
