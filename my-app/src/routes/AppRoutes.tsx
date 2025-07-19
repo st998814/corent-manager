@@ -11,7 +11,7 @@ const Inventory = lazy(() => import("../pages/Inventory"));
 const Election = lazy(() => import("../pages/Election"));
 const Docs = lazy(() => import("../pages/Docs"));
 const Login = lazy(() => import("../pages/Login"));
-
+const Signup = lazy(() => import("../pages/Signup"));
  // Define the props for AppRoutes
 interface AppRoutesProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +30,7 @@ export default function AppRoutes({ setIsLoggedIn }: AppRoutesProps) {
         <Route path="/election" element={<Election />} />
         <Route path="/docs" element={<Docs />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/register" element={<Signup />} />
 
 
         {/* Add more routes as needed */}

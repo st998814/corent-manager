@@ -2,60 +2,51 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-interface LoginProps {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const LoginPage = ({ setIsLoggedIn }: LoginProps) => {
+// Signup component
+// This component will handle user registration
+const SignupPage = () => {
+  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
-  // Mock user data for demonstration purposes
-  // const mockUser = { email: "demo@test.com", password: "123456" };
-  
 
-  // const handleLogin = (data: { email: string; password: string }) => {
-  //   if (data.email === mockUser.email && data.password === mockUser.password) {
-  //     setIsLoggedIn(true);
-  //     navigate("/");
-  //   } else {
-  //     setError("Invalid email or password");
-  //   }
-  // };
-  const handleLogin = async (email: string, password: string) => {
-  try {
-    // Make a POST request to the backend API for login
-    const res = await axios.post("http://localhost:8080/api/auth/login", {
-      email,
-      password,
-    });
-   
-    localStorage.setItem("token", res.data.token);
-    
-    setIsLoggedIn(true);
-
-    navigate("/"); 
-  } catch (error: any) {
-    alert(error.response?.data?.message || "Login failed");
-  }
-};
-
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(""); // Clear previous error
-    handleLogin(formData.email, formData.password); // Call the login function with form data
+  const handleSignup = async (name: string, email: string, password: string) => {
+    try {
+      const res = await axios.post("http://localhost:8080/api/auth/register", { name,email, password });
+      alert(res.data.message);
+      navigate("/login");
+    } catch (error: any) {
+      setError(error.response?.data?.message || "Registration failed");
+    }
+  };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(""); // Clear previous error
+        handleSignup(formData.name, formData.email, formData.password); // Call the signup function with form data
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-slate-900">
+     <div className="flex justify-center items-center h-screen bg-slate-900">
       <div className="bg-slate-800 shadow-md rounded-lg p-6 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-white mb-6">
-          Sign in to your account
+          Signup
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+                <label className="block text-sm font-medium text-gray-300">
+                Name
+                </label>
+                <input
+                type="text"
+                id="name"
+                className="mt-1 w-full px-3 py-2 bg-slate-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+                />
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-300">
               Email
@@ -92,17 +83,16 @@ const LoginPage = ({ setIsLoggedIn }: LoginProps) => {
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition"
           >
-            Sign In
+            Signup
           </button>
         </form>
-
         <p className="mt-4 text-center text-gray-400 text-sm">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <a
-            href="/register"
+            href="/login"
             className="text-blue-500 hover:text-blue-600 font-medium"
           >
-            Sign Up
+            Sign in
           </a>
         </p>
       </div>
@@ -110,4 +100,4 @@ const LoginPage = ({ setIsLoggedIn }: LoginProps) => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

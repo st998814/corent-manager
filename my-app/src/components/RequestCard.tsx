@@ -10,6 +10,8 @@ interface Request {
   status: string; 
 }
 
+
+// Define of component PublicRequestCard
 const PublicRequestCard: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
     const [requests, setRequests] = useState<Request[]>([

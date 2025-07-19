@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import PaymentNotification from '../components/PaymentNotification';
 import Timebar from '../components/Timebar';
 import PublicRequestCard from "../components/RequestCard";
+import AnnouncementCard from '../components/AnnouncementCard';
+import MembersCard from '../components/MembersCard';
 
 // conside home as dashboard, so it will be the main page
 
@@ -169,30 +171,49 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Recent Activity*/}
-        <div className="flex flex-wrap mt-6 -mx-3">
-         <div className="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
+      {/* Public Requests */}
+      <div className="flex flex-wrap mt-6 -mx-3">
+        <div className="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
           <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
             <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
               <h6 className="text-sm font-medium text-gray-400 mb-2">Public Request</h6>
               <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60 " id= 'public-request'>
                 <PublicRequestCard />
-                {/* <i className="fa fa-arrow-up text-emerald-500"></i> */}
-                {/* <span className="font-semibold"> 4% more </span> in 2021 */}
               </p>
-            </div>
-            {/* <div className="flex-auto p-4">
-              <div>
-                <canvas id="chart-line" height="300"></canvas>
-              </div> */}
             </div>
           </div>
         </div>
       </div>
-   
-      
-
-
+      {/* Announcement */}
+      <div className="flex flex-wrap mt-6 -mx-3">
+        <div className="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
+          <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
+            <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
+              <h6 className="text-sm font-medium text-gray-400 mb-2">Announcement</h6>
+              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60 " id= 'announcement'>
+                {/* Announcement content goes here */}
+                <AnnouncementCard/>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Members */}
+      <div className="flex flex-wrap mt-6 -mx-3">
+        <div className="w-full max-w-full px-3 mt-0 lg:w-7/12 lg:flex-none">
+          <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
+            <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
+              <h6 className="text-sm font-medium text-gray-400 mb-2">Members</h6>
+              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60 " id= 'members'>
+                {/* Members content goes here */}
+                <MembersCard />
+                {/* You can add member cards or list here */}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

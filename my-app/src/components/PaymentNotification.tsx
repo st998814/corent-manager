@@ -51,8 +51,7 @@ const PaymentNotification: React.FC<PaymentNotificationProps> = ({
   rent,
   utilities,
   isSplit,
-  onToggle,
-}) => {
+  onToggle,}) => {
   const splitAmount = (amount: number) =>
     Math.round((amount / 3) * 100) / 100; 
 

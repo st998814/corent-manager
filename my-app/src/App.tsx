@@ -5,7 +5,8 @@ import { BrowserRouter,Routes, Route  } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
-import Login from "./pages/Login";
+
+
 
 // function App() {
 //   const [count, setCount] = useState(0)
