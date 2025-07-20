@@ -204,11 +204,11 @@ const Home: React.FC = () => {
           <div className="border border-black/20 dark:bg-slate-800 dark:shadow-dark-xl shadow-xl relative z-20 flex min-w-0 flex-col rounded-2xl bg-white">
             <div className="border-b border-black/10 mb-0 rounded-t-2xl border-solid p-6 pt-4 pb-0">
               <h6 className="text-sm font-medium text-gray-400 mb-2">Members</h6>
-              <p className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60 " id= 'members'>
+              <div className="mb-0 text-sm leading-normal dark:text-white dark:opacity-60 " id='members'>
                 {/* Members content goes here */}
                 <MembersCard />
                 {/* You can add member cards or list here */}
-              </p>
+              </div>
             </div>
           </div>
         </div>

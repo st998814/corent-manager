@@ -10,22 +10,22 @@ const navigation = [
   { name: 'Docs', href: '/docs', current: false },
 ]
 
-// 修正 TypeScript 類型
+
 function classNames(...classNamees: string[]): string {
   return classNamees.filter(Boolean).join(' ')
 }
 
-// 定義 Props 介面
+
 interface NavbarProps {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn }: NavbarProps) {
-  // 處理登出邏輯
+  
   const handleLogout = () => {
     setIsLoggedIn(false);
-    // 可以在這裡添加其他登出邏輯，如清除 localStorage 等
+    
   };
 
   return (

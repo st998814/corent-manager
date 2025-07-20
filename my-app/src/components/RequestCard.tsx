@@ -50,6 +50,7 @@ const PublicRequestCard: React.FC = () => {
           onSubmit={handleAddRequest}
         />
       )}
+      
       {requests.map((req, index) => (
         <div key={index} className="mb-4 text-black">
           <h3 className="text-lg font-bold">{req.title}</h3>

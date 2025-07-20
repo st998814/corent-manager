@@ -12,3 +12,7 @@ export const createUser = (data) => prisma.user.create({ data });
 // 'user' here is the table name
 export const findUserByEmail = (email) =>
   prisma.user.findUnique({ where: { email } });
+
+// function to list all users
+// compile to : SELECT * FROM "User"
+export const getAllUsers = () => prisma.user.findMany();

@@ -10,6 +10,15 @@ dotenv.config();
 
 
 
+
+
+
+
+
+
+
+
+
 // Register a new user
 export const register = async (req, res) => {
   const {  name,email, password } = req.body;
@@ -56,9 +65,6 @@ export const login = async (req, res) => {
 
 
 
-
-
-
     // Successful login
     res.json({
     message: 'Login successful',
@@ -66,3 +72,4 @@ export const login = async (req, res) => {
     user: { id: user.id, name: user.name, email: user.email }
   });
 };
+
