@@ -1,45 +1,43 @@
-
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { StatusBar, StyleSheet, useColorScheme, View, Text ,Button} from 'react-native';
 import { StatusBarStyle } from 'react-native';
 import { TextInput } from 'react-native';
+import NavTabs from './navigation/BottomTabs'
+import { Appearance } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
 function App() {
-  const [statusBarStyle, setStatusBarStyle] = useState<StatusBarStyle>("dark-content");
-  // Toggle between dark and light status bar styles
-  const toggleStatusBarStyle = () => {
-    setStatusBarStyle(statusBarStyle === "dark-content" ? "light-content" : "dark-content");
-  };
-
- 
-  
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hello World</Text>
-      <StatusBar barStyle={statusBarStyle} />
-      
-      
-      <Button title="Change the theme of status bar" onPress={(toggleStatusBarStyle)} />
-      <Text style={styles.text}>current style is {statusBarStyle}</Text>
+    <ThemeProvider>
+      <AppContent /> 
+    </ThemeProvider>
+  );
+}
 
+function AppContent() {
+  const { isDarkMode } = useTheme();  
+  
+  return (
+    <View style={{ 
+      flex: 1, 
+      backgroundColor: isDarkMode ? '#1a1a1a' : '#8e44ad'
+    }}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+
+      <NavigationContainer>
+        <NavTabs  />
+      </NavigationContainer>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
+const createStyles = (isDarkMode: boolean) => StyleSheet.create({
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'purple', 
-  },
-
-  text: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+    backgroundColor: isDarkMode ? '#121212' : '#ffffff',
   },
 });
 

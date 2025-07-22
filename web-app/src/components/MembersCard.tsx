@@ -18,6 +18,7 @@ const MembersCard = () => {
   const [users, setUsers] = useState<User[]>([]);
   // Fetch users from the backend when the component mounts
   const [loading, setLoading] = useState(true);
+  
   const fetchUsers = async () => {
 
     try {

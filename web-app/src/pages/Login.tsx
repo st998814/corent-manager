@@ -19,7 +19,7 @@ const LoginPage = ({ setIsLoggedIn }: LoginProps) => {
   //     setIsLoggedIn(true);
   //     navigate("/");
   //   } else {
-  //     setError("Invalid email or password");
+4  //     setError("Invalid email or password");
   //   }
   // };
   const handleLogin = async (email: string, password: string) => {
