@@ -38,7 +38,8 @@ function AppContent() {
   useEffect(() => {
   const checkToken = async () => {
     const token = await AsyncStorage.getItem("token"); 
-    console.log("Loaded token:", token);
+    console.log("Stored token:", token);
+    
     if (token) {
       try {
         const res = await axios.get("http://192.168.20.12:8080/api/auth/me", {

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { saveInviteToDB } from '../services/inviteService.js';
 
 export const sendInvitation = async (req, res) => {
   const { name, email } = req.body;
