@@ -1,6 +1,6 @@
 
 import bcrypt from 'bcryptjs';
-import {createUser,findUserByEmail} from '../models/userModel.js'; 
+import {createUser,findUserByEmail,findUserById} from '../models/userModel.js'; 
 
 
 import jwt from 'jsonwebtoken';
@@ -61,6 +61,7 @@ export const login = async (req, res) => {
   process.env.JWT_SECRET, 
   { expiresIn: '1d' }
 );
+   console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 
 
@@ -72,4 +73,38 @@ export const login = async (req, res) => {
     user: { id: user.id, name: user.name, email: user.email }
   });
 };
+
+
+export const getUserProfile = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1]; 
+  console.log("🔹 Received Authorization Header:", req.headers.authorization);
+  console.log("🔹 Extracted Token:", token);
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("🔹 Decoded Token:", decoded);
+    const user = await findUserById(decoded.id);
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+    
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error("❌ JWT Verify Error:", err.message);
+    res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
+
 

@@ -1,48 +1,130 @@
-import { useState } from 'react';
-import { StatusBar, StyleSheet, View, Text, Button } from 'react-native';
-import { StatusBarStyle } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 
-import { useTheme } from '../context/ThemeContext';
+interface Member {
+  id: string;
+  name: string;
+  email: string;
+  status: "Pending" | "Accepted" | "Rejected";
+}
 
+export default function GroupsScreen() {
+  const [members, setMembers] = useState<Member[]>([
+    {
+      id: "1",
+      name: "Steven Wang",
+      email: "st998814@gmail.com",
+      status: "Accepted",
+    },
+    {
+      id: "2",
+      name: "Emily Chen",
+      email: "emily.chen@gmail.com",
+      status: "Pending",
+    },
+  ]);
 
-function HomeScreen() {
- 
-
-    
-  const { theme, isDarkMode, toggleTheme } = useTheme();
-
-  const styles = createStyles(isDarkMode);
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
-      
-      <Text style={styles.text}>Hello World</Text>
-      <Text style={styles.text}>當前主題: {theme}</Text>
-      <Text style={styles.text}>暗黑模式: {isDarkMode ? '開啟' : '關閉'}</Text>
-      
-      <Button 
-        title={`切換到 ${isDarkMode ? '明亮' : '暗黑'} 模式`}
-        onPress={toggleTheme}
-      />
-    </View>
+    <ScrollView style={styles.container}>
+      {/* 標題 */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Groups</Text>
+        <Text style={styles.headerSubtitle}>
+          管理你的小組與成員邀請
+        </Text>
+      </View>
+
+      {/* 成員卡片 */}
+      {members.map((member) => (
+        <View key={member.id} style={styles.card}>
+          <Text style={styles.memberName}>{member.name}</Text>
+          <Text style={styles.memberEmail}>{member.email}</Text>
+          <Text
+            style={[
+              styles.memberStatus,
+              member.status === "Accepted"
+                ? { color: "#4CAF50" }
+                : member.status === "Pending"
+                ? { color: "#FF9800" }
+                : { color: "#F44336" },
+            ]}
+          >
+            {member.status}
+          </Text>
+        </View>
+      ))}
+
+      {/* Add Member Button */}
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddMember' as never)}>
+        <Text style={styles.addButtonText}>＋ Add Member</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
-const createStyles = (isDarkMode: boolean) => StyleSheet.create({
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: isDarkMode ? '#1a1a1a' : '#f0f0e7',
+    backgroundColor: "#fff",
+    paddingHorizontal: 16,
   },
-  text: {
-    color: 'white',
-    fontSize: 18,
-    textAlign: 'center',
-    margin: 10,
+  header: {
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  headerTitle: {
+    fontSize: 26,
+    fontWeight: "600",
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+  },
+  memberName: {
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  memberEmail: {
+    fontSize: 14,
+    color: "#555",
+    marginVertical: 4,
+  },
+  memberStatus: {
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  addButton: {
+    alignItems: "center",
+    marginVertical: 20,
+    paddingVertical: 12,
+    backgroundColor: "#4CAF50",
+    borderRadius: 6,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
-
-export default HomeScreen;

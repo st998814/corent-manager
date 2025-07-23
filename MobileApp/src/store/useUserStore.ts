@@ -2,6 +2,9 @@
 import { create } from 'zustand';
 
 interface UserState {
+  isLoggedIn: boolean;
+  setIsLoggedIn: (loggedIn: boolean) => void;
+
   userId: string | null;
   username: string | null;
   token: string | null;
@@ -10,6 +13,8 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
+  isLoggedIn: false,
+  setIsLoggedIn: (loggedIn) => set({ isLoggedIn: loggedIn }),
   userId: null,
   username: null,
   token: null,

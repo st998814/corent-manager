@@ -51,9 +51,9 @@ function NavTabs() {
       }}
     >
       <Tab.Screen 
-        name="Dashboard" 
+        name="Groups" // can be other name , still thinking 
         component={HomeScreen}
-        options={{ tabBarLabel: 'Dashboard', tabBarIcon: ({ color }) => (<MaterialIcons name="dashboard" size={24} color={color} />), headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' }, headerTintColor: isDarkMode ? '#ffffff' : '#000000' }}
+        options={{ tabBarLabel: 'Groups', tabBarIcon: ({ color }) => (<MaterialIcons name="dashboard" size={24} color={color} />), headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' }, headerTintColor: isDarkMode ? '#ffffff' : '#000000' }}
       />
       <Tab.Screen 
         name="Request" 
@@ -68,13 +68,13 @@ function NavTabs() {
         <Tab.Screen 
         name="Profile" 
         component={ProfileScreen}
-        options={{ tabBarLabel: 'Profile',  tabBarIcon:({color})=>(<Ionicons name="person-outline" size={24} color={color} />), headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' }, headerTintColor: isDarkMode ? '#ffffff' : '#000000' } }
+        options={{ tabBarLabel: 'Profile',  tabBarIcon:({color})=>(<Ionicons name="person-outline" size={24} color={color} />), headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' }, headerTintColor: isDarkMode ? '#ffffff' : '#000000' }  }
       />
-        <Tab.Screen 
+        {/* <Tab.Screen 
         name="Login" 
         component={LoginScreen}
         options={{ tabBarLabel: 'Login',  tabBarIcon:({color})=>(<Ionicons name="person-outline" size={24} color={color} />), headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' }, headerTintColor: isDarkMode ? '#ffffff' : '#000000' } }
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

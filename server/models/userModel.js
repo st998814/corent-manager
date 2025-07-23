@@ -13,6 +13,9 @@ export const createUser = (data) => prisma.user.create({ data });
 export const findUserByEmail = (email) =>
   prisma.user.findUnique({ where: { email } });
 
+export const findUserById = (id) =>
+  prisma.user.findUnique({ where: { id } });
+
 // function to list all users
 // compile to : SELECT * FROM "User"
 export const getAllUsers = () => prisma.user.findMany();

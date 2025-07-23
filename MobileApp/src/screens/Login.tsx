@@ -9,19 +9,26 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   Platform,
-  Alert
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 
  import AsyncStorage from '@react-native-async-storage/async-storage';
+
+ import SignupScreen from './Signup';
 
 import axios from "axios";
 import { useNavigation } from '@react-navigation/native';
 import { useUserStore } from '../store/useUserStore';
 
+
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const setIsLoggedIn = useUserStore((state) => state.setIsLoggedIn);
   
   const { theme, isDarkMode, toggleTheme } = useTheme();
   
@@ -40,6 +47,7 @@ export default function LoginScreen() {
 
     // 1. 存 Token 到本地
     await AsyncStorage.setItem("token", res.data.token);
+    console.log("Saved token:", res.data.token);
 
     // 2. 更新全局狀態（Zustand）
     const setUser = useUserStore.getState().setUser;
@@ -47,10 +55,11 @@ export default function LoginScreen() {
 
     // 3. 跳轉 Dashboard
     
-    navigation.navigate("Dashboard" as never);
+    //  navigation.navigate("Dashboard" as never);
 
     // setIsLoading(false);
     setIsLoading(false);
+    setIsLoggedIn(true); // 更新登入狀態
     Alert.alert("登入成功", "歡迎回來！");
 
   } catch (error: any) {
@@ -76,14 +85,16 @@ export default function LoginScreen() {
   };    
 
 
-
+  //DOM 
   return (
     <KeyboardAvoidingView 
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+
       
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.content}>
         {/* 標題區域 */}
         <View style={styles.headerSection}>
@@ -143,7 +154,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           {/* 快速登入按鈕（測試用） */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.quickLoginButton}
             onPress={() => {
               setEmail('test@example.com');
@@ -151,17 +162,18 @@ export default function LoginScreen() {
             }}
           >
             <Text style={styles.quickLoginText}>使用測試帳號</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* 註冊提示 */}
         <View style={styles.signupSection}>
           <Text style={styles.signupText}>還沒有帳號？</Text>
-          <TouchableOpacity onPress={() => Alert.alert('註冊', '註冊功能開發中...')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup' as never)}>
             <Text style={styles.signupLink}>立即註冊</Text>
           </TouchableOpacity>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };
