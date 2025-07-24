@@ -14,6 +14,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useUserStore } from "./store/useUserStore";
 import SignupScreen from './screens/Signup';
 import AddMemberScreen from './screens/AddMembers';
+import EditProfileScreen from './screens/EditProfile';
+import ProfileScreen from './screens/Profile';
+
+
+
+
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -84,11 +90,18 @@ function AppContent() {
             <>
               <Stack.Screen name="Dashboard" component={NavTabs} />
               <Stack.Screen name="AddMember" component={AddMemberScreen} />
+              <Stack.Screen name="EditProfile" component={EditProfileScreen } />
+              <><Stack.Screen name="Profile" component={ProfileScreen} /></>
+
+              
             </>
+            
           ) : (
+            
             <>
               <Stack.Screen name="Login" component={LoginScreen} />
               <Stack.Screen name="Signup" component={SignupScreen} />
+
             </>
           )}
         </Stack.Navigator>

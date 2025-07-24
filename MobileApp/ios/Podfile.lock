@@ -2480,7 +2480,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNVectorIcons (10.2.0):
+  - RNVectorIcons (10.3.0):
     - boost
     - DoubleConversion
     - fast_float
@@ -2834,7 +2834,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 502fd35c8e1d326562536ff256e61e38d703eafb
   RNReanimated: 88ed7de46e956f5f0d623f070a534f711cf056e5
   RNScreens: 75074e642b69b086813a943bdf63da7085fb2166
-  RNVectorIcons: 417c003b0ce7ac7748aa548720fd7127d1d74ded
+  RNVectorIcons: 54df27a2e90ddeb674c7237d76060ec9762d0bc5
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: daa1e4de4b971b977b23bc842aaa3e135324f1f3
 
