@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useTheme } from '../context/ThemeContext';
 import { useUserStore } from '../store/useUserStore';
 import { useNavigation } from '@react-navigation/native';
+import ReturnButton from '../components/ReturnButton';
 
 
 const EditProfileScreen = () => {const navigation = useNavigation();
@@ -20,7 +21,7 @@ const EditProfileScreen = () => {const navigation = useNavigation();
     setIsLoading(true);
     try {
       // TODO: Implement API call to update profile
-      useNavigation().goBack();
+      navigation.navigate('Profile' as never)
     } catch (error) {
       console.error('Error updating profile:', error);
     } finally {
@@ -28,22 +29,13 @@ const EditProfileScreen = () => {const navigation = useNavigation();
     }
   };
 
-  const handleGoBack = () => {
-    navigation.navigate('Profile' as never)
-    console.log('Go back to Profile');
-  };
+
 
   
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack} activeOpacity={0.7}>
-          <Ionicons name="arrow-back" size={30} color={isDarkMode ? '#fff' : '#000'} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Profile</Text>
-        <TouchableOpacity onPress={handleSave} disabled={isLoading}>
-          <Text style={styles.saveButton}>{isLoading ? 'Saving...' : 'Save'}</Text>
-        </TouchableOpacity>
+        <ReturnButton />
       </View>
 
       <View style={styles.avatarContainer}>
@@ -93,15 +85,7 @@ const EditProfileScreen = () => {const navigation = useNavigation();
           />
         </View>
       </View>
-      <View>
 
-        <TouchableOpacity onPress={handleGoBack} activeOpacity={0.7}>
-          <Ionicons name="arrow-back" size={30} color={isDarkMode ? '#fff' : '#000'} />
-        </TouchableOpacity>
-
-
-
-      </View>
     </ScrollView>
   );
 };
@@ -111,22 +95,13 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     flex: 1,
     backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
     padding: 16,
+    paddingTop: 60, // Add more top padding to push content down from status bar
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 32,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: isDarkMode ? '#fff' : '#000',
-  },
-  saveButton: {
-    fontSize: 16,
-    color: '#007AFF',
-    fontWeight: '500',
+    paddingVertical: 8,
   },
   avatarContainer: {
     alignItems: 'center',

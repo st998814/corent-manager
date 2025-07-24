@@ -16,7 +16,9 @@ import SignupScreen from './screens/Signup';
 import AddMemberScreen from './screens/AddMembers';
 import EditProfileScreen from './screens/EditProfile';
 import ProfileScreen from './screens/Profile';
-
+import PaymentDetailsScreen from './screens/PaymentDetails';
+import RequestDetailsScreen from './screens/RequestDetails';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
@@ -55,6 +57,7 @@ function AppContent() {
           },
         });
 
+
         const user = res.data.user;
 
         setUser(user.id, user.username, token); 
@@ -82,18 +85,18 @@ function AppContent() {
       backgroundColor: isDarkMode ? '#1a1a1a' : '#8e44ad'
     }}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-
+       <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }} id={undefined}>
           {/* Conditional rendering based on login status */}
           {isLoggedIn ? (
             <>
-              <Stack.Screen name="Dashboard" component={NavTabs} />
+              <Stack.Screen name="Tabs" component={NavTabs} />
               <Stack.Screen name="AddMember" component={AddMemberScreen} />
               <Stack.Screen name="EditProfile" component={EditProfileScreen } />
-              <><Stack.Screen name="Profile" component={ProfileScreen} /></>
-
-              
+              <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} />
+              <Stack.Screen name="RequestDetails" component={RequestDetailsScreen} />
             </>
             
           ) : (
@@ -107,6 +110,7 @@ function AppContent() {
         </Stack.Navigator>
 
       </NavigationContainer>
+      </GestureHandlerRootView>
     </View>
   );
 }

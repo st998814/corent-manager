@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-interface RequestItem {
-  id: string;
-  type: string;
-  description: string;
-  status: "Pending" | "Approved" | "Rejected";
-}
-
+import { RootStackParamList,RequestItem } from "../navigation/BottomTabs";
+import { StackNavigationProp } from "@react-navigation/stack";
+import ListCard from "../components/ListCard";
+import ReturnButton from "../components/ReturnButton";
+// interface RequestItem {
+//   id: string;
+//   type: string;
+//   description: string;
+//   status: "Pending" | "Approved" | "Rejected";
+// }
+type RequestScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "RequestDetails"
+>;
 export default function RequestScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RequestScreenNavigationProp>();
   const [requests, setRequests] = useState<RequestItem[]>([
     {
       id: "1",
@@ -37,6 +43,10 @@ export default function RequestScreen() {
     navigation.navigate("AddRequest" as never);
   };
 
+  const handleRequestDetails = (request: RequestItem) => {
+    navigation.navigate("RequestDetails", { requestData: request });
+  };
+
   return (
     <ScrollView style={styles.container}>
       {/* 標題 */}
@@ -45,26 +55,19 @@ export default function RequestScreen() {
       </View>
 
       {/* Request Cards */}
-      {requests.map((item) => (
-        <View key={item.id} style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardType}>{item.type}</Text>
-            <Text
-              style={[
-                styles.cardStatus,
-                item.status === "Approved"
-                  ? { color: "#4CAF50" }
-                  : item.status === "Rejected"
-                  ? { color: "#F44336" }
-                  : { color: "#FF9800" },
-              ]}
-            >
-              {item.status}
-            </Text>
-          </View>
-          <Text style={styles.cardDescription}>{item.description}</Text>
-        </View>
-      ))}
+            {requests.map((item) => (
+              <ListCard
+                key={item.id}
+                requestData={{
+                  id: item.id,
+                  type: item.type,
+                  description: item.description,
+                  status: item.status,
+                }}
+                onPress={() => handleRequestDetails(item)}
+              />
+            ))}
+
 
       {/* Add Request Button */}
       <TouchableOpacity style={styles.addButton} onPress={handleAddRequest}>
@@ -79,10 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
+    paddingTop: 60, // 添加 top padding 來補償移除的 header
   },
   header: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10, // 減少 marginTop，因為已經有 paddingTop
+    marginBottom: 20,
   },
   headerTitle: {
     fontSize: 26,

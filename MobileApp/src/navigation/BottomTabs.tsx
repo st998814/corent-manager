@@ -12,12 +12,36 @@ import { useTheme } from '../context/ThemeContext';
 
 const Tab = createBottomTabNavigator();
 
+export type PaymentItem = {
+  id: string;
+  title: string;
+  amount: number;
+  dueDate?: string;
+  status: string;
+  description?: string;
+};
+
+export type RequestItem = {
+  id: string;
+  type: string;
+  description?: string;
+  status: string;
+};
+
+export type RootStackParamList = {
+  AddPayment: undefined;
+  PaymentDetails: { paymentData: PaymentItem };
+  AddRequest: undefined;
+  RequestDetails: { requestData: RequestItem };
+};
+
 function NavTabs() {
   const { isDarkMode } = useTheme();
 
+
   return (
     <Tab.Navigator
-      id="MainTabs"
+      id={undefined}
       screenOptions={{
         tabBarActiveTintColor: '#8e44ad',
         tabBarInactiveTintColor: 'gray',
@@ -34,8 +58,7 @@ function NavTabs() {
         options={{ 
           tabBarLabel: 'Groups',
           tabBarIcon: ({ color }) => (<MaterialIcons name="dashboard" size={24} color={color} />),
-          headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' },
-          headerTintColor: isDarkMode ? '#ffffff' : '#000000'
+          headerShown: false,
         }}
       />
       <Tab.Screen 
@@ -44,8 +67,7 @@ function NavTabs() {
         options={{ 
           tabBarLabel: 'Request',
           tabBarIcon: ({ color }) => (<FontAwesome5 name="fist-raised" size={24} color={color} />),
-          headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' },
-          headerTintColor: isDarkMode ? '#ffffff' : '#000000'
+          headerShown: false,
         }}
       />
       <Tab.Screen 
@@ -54,8 +76,7 @@ function NavTabs() {
         options={{ 
           tabBarLabel: 'Payment',
           tabBarIcon: ({ color }) => (<MaterialIcons name="payments" size={24} color={color} />),
-          headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' },
-          headerTintColor: isDarkMode ? '#ffffff' : '#000000'
+          headerShown: false,
         }}
       />
       <Tab.Screen 
@@ -64,8 +85,7 @@ function NavTabs() {
         options={{ 
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (<Ionicons name="person-outline" size={24} color={color} />),
-          headerStyle: { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' },
-          headerTintColor: isDarkMode ? '#ffffff' : '#000000'
+          headerShown: false,
         }}
       />
 

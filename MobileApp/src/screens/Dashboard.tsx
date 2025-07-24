@@ -78,10 +78,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
+    paddingTop: 60, // 添加 top padding 來補償移除的 header
   },
   header: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10, // 減少 marginTop，因為已經有 paddingTop
+    marginBottom: 20,
   },
   headerTitle: {
     fontSize: 26,

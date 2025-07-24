@@ -2,24 +2,49 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-interface PaymentItem {
-  id: string;
-  title: string;
-  amount: number;
-  dueDate?: string;
-}
+import ListCard from "../components/ListCard";
+import PaymentDetailsScreen from "./PaymentDetails";
+
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList, PaymentItem } from "../navigation/BottomTabs"; 
+
+type PaymentScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "PaymentDetails"
+>;
 
 export default function PaymentScreen() {
-  const navigation = useNavigation();
+
+  const navigation = useNavigation<PaymentScreenNavigationProp>();
   const [payments, setPayments] = useState<PaymentItem[]>([
-    { id: "1", title: "房租", amount: 800, dueDate: "2025-08-01" },
-    { id: "2", title: "水電費", amount: 120, dueDate: "2025-08-05" },
+    { 
+      id: "1", 
+      title: "房租", 
+      amount: 800, 
+      dueDate: "2025-08-01", 
+      status: "未付款",
+      description: "每月房租費用"
+    },
+    { 
+      id: "2", 
+      title: "水電費", 
+      amount: 120, 
+      dueDate: "2025-08-05", 
+      status: "已付款",
+      description: "7月份水電費用"
+    },
   ]);
 
   const handleAddPayment = () => {
     // 假設之後會跳轉到添加頁面 (或彈出表單)
     navigation.navigate("AddPayment" as never);
   };
+
+  const handlePaymentDetails = (payment: PaymentItem) => {
+    navigation.navigate("PaymentDetails", { paymentData: payment });
+  };
+
+ 
 
   return (
     <ScrollView style={styles.container}>
@@ -29,16 +54,19 @@ export default function PaymentScreen() {
       </View>
 
       {/* Payment Cards */}
+    
       {payments.map((item) => (
-        <View key={item.id} style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardAmount}>${item.amount}</Text>
-          </View>
-          {item.dueDate && (
-            <Text style={styles.cardDueDate}>Due: {item.dueDate}</Text>
-          )}
-        </View>
+        <ListCard
+          key={item.id}
+          paymentData={{
+            id: item.id,
+            title: item.title,
+            description: `Due: ${item.dueDate || "N/A"}`,
+            amount: item.amount,
+
+          }}
+          onPress={() => handlePaymentDetails(item)}
+        />
       ))}
 
       {/* Add Payment Button */}
@@ -54,10 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
+    paddingTop: 60, // 添加 top padding 來補償移除的 header
   },
   header: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10, // 減少 marginTop，因為已經有 paddingTop
+    marginBottom: 20,
   },
   headerTitle: {
     fontSize: 26,
