@@ -9,31 +9,38 @@ import {
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "../context/ThemeContext";
 
 interface Member {
   id: string;
   name: string;
   email: string;
-  status: "Pending" | "Accepted" | "Rejected";
+  
 }
 
 export default function GroupsScreen() {
+  const { isDarkMode } = useTheme();
   const [members, setMembers] = useState<Member[]>([
+    
     {
       id: "1",
       name: "Steven Wang",
       email: "st998814@gmail.com",
-      status: "Accepted",
+     
     },
     {
       id: "2",
       name: "Emily Chen",
-      email: "emily.chen@gmail.com",
-      status: "Pending",
+      email: "emily.chen@gmail.com"
+     
     },
+
+
   ]);
 
   const navigation = useNavigation();
+
+  const styles = createStyles(isDarkMode);
 
   return (
     <ScrollView style={styles.container}>
@@ -50,18 +57,6 @@ export default function GroupsScreen() {
         <View key={member.id} style={styles.card}>
           <Text style={styles.memberName}>{member.name}</Text>
           <Text style={styles.memberEmail}>{member.email}</Text>
-          <Text
-            style={[
-              styles.memberStatus,
-              member.status === "Accepted"
-                ? { color: "#4CAF50" }
-                : member.status === "Pending"
-                ? { color: "#FF9800" }
-                : { color: "#F44336" },
-            ]}
-          >
-            {member.status}
-          </Text>
         </View>
       ))}
 
@@ -83,10 +78,10 @@ export default function GroupsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: isDarkMode ? "#1a1a1a" : "#fff",
     paddingHorizontal: 16,
     paddingTop: 60,
   },
@@ -97,29 +92,33 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 26,
     fontWeight: "600",
+    color: isDarkMode ? "#fff" : "#000",
   },
   headerSubtitle: {
     fontSize: 14,
-    color: "#666",
+    color: isDarkMode ? "#999" : "#666",
     marginTop: 4,
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
     borderRadius: 8,
     padding: 18,
     marginBottom: 12,
     elevation: 1,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
+    shadowColor: isDarkMode ? "#fff" : "#000",
+    shadowOpacity: isDarkMode ? 0.1 : 0.05,
     shadowRadius: 3,
+    borderWidth: isDarkMode ? 1 : 0,
+    borderColor: isDarkMode ? "#333" : "transparent",
   },
   memberName: {
     fontSize: 16,
     fontWeight: "600",
+    color: isDarkMode ? "#fff" : "#000",
   },
   memberEmail: {
     fontSize: 14,
-    color: "#555",
+    color: isDarkMode ? "#ccc" : "#555",
     marginVertical: 4,
   },
   memberStatus: {

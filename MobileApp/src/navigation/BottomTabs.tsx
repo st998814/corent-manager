@@ -27,6 +27,11 @@ export type RequestItem = {
   description?: string;
   status: string;
 };
+export type GroupItem = {
+  id: string;
+  name: string;
+  email: string;
+};
 
 export type RootStackParamList = {
   AddPayment: undefined;
@@ -35,6 +40,9 @@ export type RootStackParamList = {
   RequestDetails: { requestData: RequestItem };
   JoinGroup: undefined;
   CreateGroup: undefined;
+  Memberdetails:{ groupData: GroupItem };
+
+
 };
 
 function NavTabs() {

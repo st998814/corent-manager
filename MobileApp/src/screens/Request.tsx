@@ -5,6 +5,7 @@ import { RootStackParamList,RequestItem } from "../navigation/BottomTabs";
 import { StackNavigationProp } from "@react-navigation/stack";
 import ListCard from "../components/ListCard";
 import ReturnButton from "../components/ReturnButton";
+import { useTheme } from "../context/ThemeContext";
 // interface RequestItem {
 //   id: string;
 //   type: string;
@@ -16,6 +17,7 @@ type RequestScreenNavigationProp = StackNavigationProp<
   "RequestDetails"
 >;
 export default function RequestScreen() {
+  const { isDarkMode } = useTheme();
   const navigation = useNavigation<RequestScreenNavigationProp>();
   const [requests, setRequests] = useState<RequestItem[]>([
     {
@@ -47,6 +49,8 @@ export default function RequestScreen() {
     navigation.navigate("RequestDetails", { requestData: request });
   };
 
+  const styles = createStyles(isDarkMode);
+
   return (
     <ScrollView style={styles.container}>
       {/* 標題 */}
@@ -77,30 +81,33 @@ export default function RequestScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: isDarkMode ? "#1a1a1a" : "#fff",
     paddingHorizontal: 16,
-    paddingTop: 60, // 添加 top padding 來補償移除的 header
+    paddingTop: 60,
   },
   header: {
-    marginTop: 10, // 減少 marginTop，因為已經有 paddingTop
+    marginTop: 10,
     marginBottom: 20,
   },
   headerTitle: {
     fontSize: 26,
     fontWeight: "600",
+    color: isDarkMode ? "#fff" : "#000",
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
-    elevation: 1, // Android
-    shadowColor: "#000", // iOS
-    shadowOpacity: 0.05,
+    elevation: 1,
+    shadowColor: isDarkMode ? "#fff" : "#000",
+    shadowOpacity: isDarkMode ? 0.1 : 0.05,
     shadowRadius: 3,
+    borderWidth: isDarkMode ? 1 : 0,
+    borderColor: isDarkMode ? "#333" : "transparent",
   },
   cardHeader: {
     flexDirection: "row",
@@ -110,6 +117,7 @@ const styles = StyleSheet.create({
   cardType: {
     fontSize: 15,
     fontWeight: "600",
+    color: isDarkMode ? "#fff" : "#000",
   },
   cardStatus: {
     fontSize: 14,
@@ -117,7 +125,7 @@ const styles = StyleSheet.create({
   },
   cardDescription: {
     fontSize: 14,
-    color: "#555",
+    color: isDarkMode ? "#ccc" : "#555",
   },
   addButton: {
     alignItems: "center",
