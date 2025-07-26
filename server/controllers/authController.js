@@ -2,11 +2,11 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
-// 模擬用戶數據庫（實際應用中使用真實數據庫）
-const users = new Map();
+const prisma = new PrismaClient();
 
 // Register a new user
 export const register = async (req, res) => {
@@ -21,7 +21,10 @@ export const register = async (req, res) => {
     }
 
     // 檢查用戶是否已存在
-    const existingUser = Array.from(users.values()).find(user => user.email === email);
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
+    });
+    
     if (existingUser) {
       return res.status(400).json({ message: 'Email already in use' });
     }
@@ -30,32 +33,29 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // 創建新用戶
-    const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const newUser = {
-      id: userId,
-      name,
-      email,
-      password: hashedPassword,
-      createdAt: new Date().toISOString()
-    };
-
-    users.set(userId, newUser);
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword
+      }
+    });
 
     // 生成 JWT token
     const token = jwt.sign(
-      { id: userId, email, name },
+      { id: newUser.id, email: newUser.email, name: newUser.name },
       process.env.JWT_SECRET,
       { expiresIn: '30d' }
     );
 
-    console.log('✅ 用戶註冊成功:', { userId, email, name });
+    console.log('✅ 用戶註冊成功:', { userId: newUser.id, email, name });
 
     res.status(201).json({
       message: 'User registered successfully',
       user: {
-        id: userId,
-        name,
-        email
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email
       },
       token
     });
@@ -79,7 +79,10 @@ export const login = async (req, res) => {
     }
 
     // 查找用戶
-    const user = Array.from(users.values()).find(user => user.email === email);
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
+    
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -119,7 +122,15 @@ export const login = async (req, res) => {
 export const getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
-    const user = users.get(userId);
+    
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true
+      }
+    });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -129,8 +140,7 @@ export const getUserProfile = async (req, res) => {
       user: {
         id: user.id,
         name: user.name,
-        email: user.email,
-        createdAt: user.createdAt
+        email: user.email
       }
     });
 
