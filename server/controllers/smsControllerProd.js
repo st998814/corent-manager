@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import appConfig from '../config/index.js';
+import appConfig from '../config/ConfigIndex.js';
 import { sendSmsVerification } from '../services/smsServiceProd.js';
 import { logAuthEvent, logSecurityEvent, logError, logPerformance } from '../utils/logger.js';
 

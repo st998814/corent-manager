@@ -69,6 +69,16 @@ export default function GroupsScreen() {
       <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddMember' as never)}>
         <Text style={styles.addButtonText}>＋ Add Member</Text>
       </TouchableOpacity>
+
+      {/* Join Group Button */}
+      <TouchableOpacity style={styles.joinButton} onPress={() => navigation.navigate('JoinGroup' as never)}>
+        <Text style={styles.joinButtonText}>🔗 Join Group</Text>
+      </TouchableOpacity>
+
+      {/* Create Group Button */}
+      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('CreateGroup' as never)}>
+        <Text style={styles.createButtonText}>➕ Create Group</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -78,10 +88,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    paddingTop: 60, // 添加 top padding 來補償移除的 header
+    paddingTop: 60,
   },
   header: {
-    marginTop: 10, // 減少 marginTop，因為已經有 paddingTop
+    marginTop: 10, 
     marginBottom: 20,
   },
   headerTitle: {
@@ -96,7 +106,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 8,
-    padding: 16,
+    padding: 18,
     marginBottom: 12,
     elevation: 1,
     shadowColor: "#000",
@@ -118,12 +128,36 @@ const styles = StyleSheet.create({
   },
   addButton: {
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: 10,
     paddingVertical: 12,
     backgroundColor: "#4CAF50",
     borderRadius: 6,
   },
   addButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  joinButton: {
+    alignItems: "center",
+    marginVertical: 10,
+    paddingVertical: 12,
+    backgroundColor: "#2196F3",
+    borderRadius: 6,
+  },
+  joinButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  createButton: {
+    alignItems: "center",
+    marginVertical: 10,
+    paddingVertical: 12,
+    backgroundColor: "#FF9800",
+    borderRadius: 6,
+  },
+  createButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "500",

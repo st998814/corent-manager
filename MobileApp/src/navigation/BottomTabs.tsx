@@ -33,6 +33,8 @@ export type RootStackParamList = {
   PaymentDetails: { paymentData: PaymentItem };
   AddRequest: undefined;
   RequestDetails: { requestData: RequestItem };
+  JoinGroup: undefined;
+  CreateGroup: undefined;
 };
 
 function NavTabs() {

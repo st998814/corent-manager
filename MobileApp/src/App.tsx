@@ -18,6 +18,8 @@ import EditProfileScreen from './screens/EditProfile';
 import ProfileScreen from './screens/Profile';
 import PaymentDetailsScreen from './screens/PaymentDetails';
 import RequestDetailsScreen from './screens/RequestDetails';
+import JoinGroupScreen from './screens/JoinGroup';
+import CreateGroupScreen from './screens/CreateGroup';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
@@ -97,6 +99,8 @@ function AppContent() {
               <Stack.Screen name="Profile" component={ProfileScreen} />
               <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} />
               <Stack.Screen name="RequestDetails" component={RequestDetailsScreen} />
+              <Stack.Screen name="JoinGroup" component={JoinGroupScreen} />
+              <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
             </>
             
           ) : (

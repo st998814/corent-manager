@@ -1,4 +1,4 @@
-import appConfig from '../config/index.js';
+import appConfig from '../config/ConfigIndex.js';
 import { logSmsEvent, logError } from '../utils/logger.js';
 import crypto from 'crypto';
 
