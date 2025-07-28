@@ -83,7 +83,7 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     flex: 1,
     backgroundColor: isDarkMode ? "#1a1a1a" : "#fff",
     paddingHorizontal: 16,
-    paddingTop: 60,
+    paddingTop: 80,
   },
   header: {
     marginTop: 10,

@@ -12,6 +12,7 @@ type PaymentData = {
 };
 type RequestData = {
   id: string;
+  host:string;
   type: string;
   description: string;
   status: string;
@@ -62,13 +63,17 @@ const isPaymentCard = !!paymentData;
           <Text style={styles.cardAmount}>${paymentData.amount}</Text>
         </View>
       )}
+        {/* request card */}
         {!isPaymentCard && requestData && (
+            <>
             <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>{requestData.type}</Text>
             <Text style={styles.cardStatus}>{requestData.status}</Text>
             </View>
+            <Text style={styles.cardHost}>{requestData.host}</Text>
+            </>
         )}
-        // 如果是群組卡片
+       
         {!isPaymentCard && !requestData && groupData && (
           <>
             <View style={styles.cardHeader}>
@@ -103,7 +108,11 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 6,
+    marginBottom: 5,
+  },
+  statusContainer: {
+    alignItems: "flex-end",
+    flex: 1,
   },
   cardTitle: {
     fontSize: 16,
@@ -118,7 +127,7 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
 
   cardAmount: {
     fontSize: 16,
-    color: "#4CAF50", // 綠色表示支付金額
+    color: "#4CAF50",
     fontWeight: "600",
   },
   cardStatus: {
@@ -126,5 +135,11 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     fontWeight: "600",
     color: isDarkMode ? "#fff" : "#000",
   },
+  cardHost: {
+    fontSize: 12,
+    color: isDarkMode ? "#999" : "#666",
+    marginBottom: 6,
+    fontWeight: "500",
+  }
 });
 
