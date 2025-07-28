@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    paddingTop: 60, // 添加 top padding 來補償移除的 header
+    paddingTop: 80, // 添加 top padding 來補償移除的 header
   },
   sectionTitle: {
     marginTop: 25,
