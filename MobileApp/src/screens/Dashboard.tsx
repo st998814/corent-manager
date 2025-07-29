@@ -5,15 +5,18 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
+  
 } from "react-native";
 import { useUserStore } from "../store/useUserStore";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../context/ThemeContext";
+
 import axios from "axios";
 
 // components
 import AddButtom from "../components/AddButton";
+
+
 
 interface Member {
   id: number;
@@ -33,6 +36,7 @@ interface GroupData {
 }
 
 export default function GroupsScreen() {
+
 
   const { token } = useUserStore(state => state);
   const { isDarkMode } = useTheme();
@@ -72,9 +76,12 @@ export default function GroupsScreen() {
       const memberIds = new Set();
       
 
-     
+  
+
+
 
       
+
 
 
 
@@ -126,11 +133,13 @@ export default function GroupsScreen() {
 
    
 
+
   return (
     
     <ScrollView style={styles.container}>
       {/* 標題 */}
       <View style={styles.header}>
+
         <View style={styles.titleContainer}>
           {members.length>0 ?( <View>
             <Text style={styles.headerTitle}>{groupsData[0].name}</Text>
@@ -148,6 +157,8 @@ export default function GroupsScreen() {
           )}
 
           <AddButtom onPress={toAddMember}/>
+
+
         </View>
       </View>
 
@@ -176,10 +187,7 @@ export default function GroupsScreen() {
  
 
       {/* Add Member Button */}
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddMember' as never)}>
-        <Text style={styles.addButtonText}>＋ Add Member</Text>
-      </TouchableOpacity>
-
+      
       {/* Join Group Button */}
       <TouchableOpacity style={styles.joinButton} onPress={() => navigation.navigate('JoinGroup' as never)}>
         <Text style={styles.joinButtonText}>🔗 Join Group</Text>
@@ -189,7 +197,12 @@ export default function GroupsScreen() {
       <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('CreateGroup' as never)}>
         <Text style={styles.createButtonText}>➕ Create Group</Text>
       </TouchableOpacity>
+
+      
+
+
     </ScrollView>
+
   );
 }
 
@@ -203,11 +216,12 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   header: {
     marginTop: 10, 
     marginBottom: 20,
-  },
+
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+
   },
   headerTitle: {
     fontSize: 26,
@@ -217,7 +231,21 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   headerSubtitle: {
     fontSize: 14,
     color: isDarkMode ? "#999" : "#666",
-    marginTop: 4,
+    flex: 1,
+  },
+  headerAddButton: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "#4CAF50",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  headerAddText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   card: {
     backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
