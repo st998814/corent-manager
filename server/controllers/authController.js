@@ -100,7 +100,7 @@ export const login = async (req, res) => {
       { expiresIn: '30d' }
     );
 
-    console.log('✅ 用戶登錄成功:', { userId: user.id, email });
+    console.log('✅ 用戶登錄成功:', { userId: user.id, email,token });
 
     res.json({
       message: 'Login successful',
@@ -108,7 +108,8 @@ export const login = async (req, res) => {
       user: {
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        token
       }
     });
 
@@ -149,5 +150,7 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ message: 'Server error getting user profile' });
   }
 };
+
+
 
 

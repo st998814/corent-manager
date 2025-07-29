@@ -12,4 +12,109 @@ model User {
   name     String
   email    String @unique
   password String
+  
+  // 用戶建立的群組
+  ownedGroups Group[] @relation("GroupOwner")
+  // 用戶加入的群組成員關係
+  memberships Member[]
+  // 用戶發送的請求
+  sentRequests Request[] @relation("RequestSender")
+  // 用戶接收的請求
+  receivedRequests Request[] @relation("RequestReceiver")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Group {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  
+  // 群組擁有者
+  ownerId     Int
+  owner       User     @relation("GroupOwner", fields: [ownerId], references: [id])
+  
+  // 群組成員
+  members     Member[]
+  // 群組內的請求
+  requests    Request[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Member {
+  id       Int    @id @default(autoincrement())
+  
+  // 成員用戶
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+  
+  // 所屬群組
+  groupId  Int
+  group    Group  @relation(fields: [groupId], references: [id])
+  
+  // 成員角色
+  role     MemberRole @default(MEMBER)
+  // 成員狀態
+  status   MemberStatus @default(ACTIVE)
+  
+  // 加入時間
+  joinedAt DateTime @default(now())
+  
+  // 確保同一用戶不能重複加入同一群組
+  @@unique([userId, groupId])
+}
+
+model Request {
+  id          Int           @id @default(autoincrement())
+  type        RequestType
+  title       String
+  description String
+  status      RequestStatus @default(PENDING)
+  
+  // 發送請求的用戶
+  senderId    Int
+  sender      User          @relation("RequestSender", fields: [senderId], references: [id])
+  
+  // 接收請求的用戶（可選，如果是群組請求則為空）
+  receiverId  Int?
+  receiver    User?         @relation("RequestReceiver", fields: [receiverId], references: [id])
+  
+  // 所屬群組
+  groupId     Int
+  group       Group         @relation(fields: [groupId], references: [id])
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+// 成員角色枚舉
+enum MemberRole {
+  ADMIN    // 管理員
+  MEMBER   // 一般成員
+}
+
+// 成員狀態枚舉
+enum MemberStatus {
+  ACTIVE   // 活躍
+  INACTIVE // 非活躍
+  PENDING  // 待加入
+}
+
+// 請求類型枚舉
+enum RequestType {
+  PAYMENT  // 付款請求
+  CLEANING // 清潔請求
+  REPAIR   // 維修請求
+  OTHER    // 其他
+}
+
+// 請求狀態枚舉
+enum RequestStatus {
+  PENDING   // 待處理
+  APPROVED  // 已批准
+  REJECTED  // 已拒絕
+  COMPLETED // 已完成
 }

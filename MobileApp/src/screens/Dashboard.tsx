@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   View,
   Text,
@@ -7,75 +7,184 @@ import {
   TouchableOpacity,
   
 } from "react-native";
-
+import { useUserStore } from "../store/useUserStore";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../context/ThemeContext";
-import AddButtom from "../components/AddButtom";
+
+import axios from "axios";
+
+// components
+import AddButtom from "../components/AddButton";
+
+
 
 interface Member {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  
+  role: string;
+  isCurrentUser: boolean;
+}
+
+interface GroupData {
+  id: number;
+  name: string;
+  description: string;
+  memberCount: number;
+  userRole: string;
+  members: Member[];
 }
 
 export default function GroupsScreen() {
-  
 
-  const navigation = useNavigation();
 
+  const { token } = useUserStore(state => state);
   const { isDarkMode } = useTheme();
   const styles = createStyles(isDarkMode);
+  const navigation = useNavigation();
 
-  const [members, setMembers] = useState<Member[]>([
-    
-    {
-      id: "1",
-      name: "Steven Wang",
-      email: "st998814@gmail.com",
-     
-    },
-    {
-      id: "2",
-      name: "Emily Chen",
-      email: "emily.chen@gmail.com"
-     
-    },
+  // hooks
+  const [members, setMembers] = useState<Member[]>([]);
+  const [groupsData, setGroupsData] = useState<GroupData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
 
-  ]);
+
+ useEffect(() => {
+
+  const fetchGroupInfo = async () => {
+    setIsLoading(true);
+    try {
+
+          const response = await axios.post( 
+        'http://192.168.20.12:8080/api/groups/groupinfo',
+        {},
+         
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+
+    if (response.data.success){
+      setGroupsData(response.data.groups)
+
+      const allMembers: Member[] = [];
+      const memberIds = new Set();
+      
+
+  
+
+
+
+      
+
+
+
+
+      response.data.groups.forEach((group: GroupData) => {
+      group.members.forEach((member: Member) => {
+              if (!memberIds.has(member.id)) {
+                memberIds.add(member.id);
+                allMembers.push(member);
+              }
+            });
+          });
+
+
+      
+      setMembers(allMembers);
+
+
+      console.log('✅ 設置成員資料:', allMembers);
+        } else {
+          Alert.alert('錯誤', response.data.message || '獲取群組資訊失敗');
+        };
+
+    } catch (error) {
+      console.error('獲取群組資訊失敗:', error);
+      Alert.alert('錯誤', '獲取群組資訊失敗');
+    }finally{
+
+
+      setIsLoading(false);
+    }
+  };
+  fetchGroupInfo();
+}, [token]);
+
 
 
   const toAddMember=()=>{
 
-    navigation.navigate('AddMember' as never);
+    navigation.navigate('AddMember'as never)
 
-  };
 
+
+  }
+  
+
+
+
+  
+
+   
 
 
   return (
+    
     <ScrollView style={styles.container}>
       {/* 標題 */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Groups</Text>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.headerSubtitle}>
-            管理你的小組與成員邀請
-          </Text>
-          <TouchableOpacity style={styles.headerAddButton} onPress={toAddMember}>
-            <Text style={styles.headerAddText}>+</Text>
-          </TouchableOpacity>
+
+        <View style={styles.titleContainer}>
+          {members.length>0 ?( <View>
+            <Text style={styles.headerTitle}>{groupsData[0].name}</Text>
+            <Text style={styles.headerSubtitle}>
+              Welcome!
+            </Text>
+          </View>):(<View>
+            <Text style={styles.headerTitle}>Groups</Text>
+            <Text style={styles.headerSubtitle}>
+              管理你的小組與成員邀請
+            </Text>
+          </View>
+
+
+          )}
+
+          <AddButtom onPress={toAddMember}/>
+
+
         </View>
       </View>
 
       {/* 成員卡片 */}
-      {members.map((member) => (
-        <View key={member.id} style={styles.card}>
-          <Text style={styles.memberName}>{member.name}</Text>
-          <Text style={styles.memberEmail}>{member.email}</Text>
+
+        {members.length > 0 ? (
+        members.map((member) => (
+          <View key={member.id} style={styles.card}>
+            <Text style={styles.memberName}>
+              {member.name}
+              {member.isCurrentUser && (
+                <Text style={styles.currentUserTag}> (我)</Text>
+              )}
+            </Text>
+            <Text style={styles.memberEmail}>{member.email}</Text>
+            <Text style={styles.memberRole}>角色: {member.role}</Text>
+          </View>
+        ))
+      ) : (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>還沒有加入任何群組</Text>
+          <Text style={styles.emptySubText}>創建或加入一個群組開始吧！</Text>
         </View>
-      ))}
+      )}
+
+ 
 
       {/* Add Member Button */}
       
@@ -107,12 +216,12 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   header: {
     marginTop: 10, 
     marginBottom: 20,
-  },
-  subtitleContainer: {
+
+  titleContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 4,
+    alignItems: 'flex-start',
+
   },
   headerTitle: {
     fontSize: 26,
@@ -199,5 +308,40 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "500",
+  },
+   statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+    paddingHorizontal: 8,
+  },
+    loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: isDarkMode ? "#fff" : "#000",
+  },
+    emptyContainer: {
+    alignItems: 'center',
+    marginVertical: 40,
+  },
+    currentUserTag: {
+    fontSize: 14,
+    color: "#4CAF50",
+    fontWeight: "400",
+  },
+    memberRole: {
+    fontSize: 12,
+    color: isDarkMode ? "#999" : "#777",
+    fontWeight: "500",
+  },
+    emptyText: {
+    fontSize: 16,
+    color: isDarkMode ? "#999" : "#666",
+    fontWeight: "500",
+  },
+    emptySubText: {
+    fontSize: 14,
+    color: isDarkMode ? "#777" : "#888",
+    marginTop: 8,
   },
 });

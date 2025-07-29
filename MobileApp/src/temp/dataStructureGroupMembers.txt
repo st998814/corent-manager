@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "groups": [
+    {
+      "id": 1,
+      "name": "Test Group",
+      "description": "Test Description",
+      "owner": {
+        "id": 4,
+        "name": "mobile07",
+        "email": "mobile07@example.com"
+      },
+      "memberCount": 2,
+      "userRole": "ADMIN",
+      "joinedAt": "2025-07-29T11:55:44.751Z",
+      "members": [
+        {
+          "id": 4,
+          "name": "mobile07",
+          "email": "mobile07@example.com",
+          "role": "ADMIN",
+          "status": "ACTIVE",
+          "joinedAt": "2025-07-29T11:55:44.751Z",
+          "isCurrentUser": true
+        },
+        {
+          "id": 2,
+          "name": "test",
+          "email": "test@example.com",
+          "role": "MEMBER",
+          "status": "ACTIVE",
+          "joinedAt": "2025-07-29T12:30:15.123Z",
+          "isCurrentUser": false
+        }
+      ]
+    }
+  ],
+  "totalCount": 1,
+  "userId": 4
+}
