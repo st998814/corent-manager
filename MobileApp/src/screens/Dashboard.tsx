@@ -5,11 +5,12 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
+  
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../context/ThemeContext";
+import AddButtom from "../components/AddButtom";
 
 interface Member {
   id: string;
@@ -19,7 +20,13 @@ interface Member {
 }
 
 export default function GroupsScreen() {
+  
+
+  const navigation = useNavigation();
+
   const { isDarkMode } = useTheme();
+  const styles = createStyles(isDarkMode);
+
   const [members, setMembers] = useState<Member[]>([
     
     {
@@ -38,18 +45,28 @@ export default function GroupsScreen() {
 
   ]);
 
-  const navigation = useNavigation();
 
-  const styles = createStyles(isDarkMode);
+  const toAddMember=()=>{
+
+    navigation.navigate('AddMember' as never);
+
+  };
+
+
 
   return (
     <ScrollView style={styles.container}>
       {/* 標題 */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Groups</Text>
-        <Text style={styles.headerSubtitle}>
-          管理你的小組與成員邀請
-        </Text>
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.headerSubtitle}>
+            管理你的小組與成員邀請
+          </Text>
+          <TouchableOpacity style={styles.headerAddButton} onPress={toAddMember}>
+            <Text style={styles.headerAddText}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* 成員卡片 */}
@@ -61,10 +78,7 @@ export default function GroupsScreen() {
       ))}
 
       {/* Add Member Button */}
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddMember' as never)}>
-        <Text style={styles.addButtonText}>＋ Add Member</Text>
-      </TouchableOpacity>
-
+      
       {/* Join Group Button */}
       <TouchableOpacity style={styles.joinButton} onPress={() => navigation.navigate('JoinGroup' as never)}>
         <Text style={styles.joinButtonText}>🔗 Join Group</Text>
@@ -74,7 +88,12 @@ export default function GroupsScreen() {
       <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('CreateGroup' as never)}>
         <Text style={styles.createButtonText}>➕ Create Group</Text>
       </TouchableOpacity>
+
+      
+
+
     </ScrollView>
+
   );
 }
 
@@ -89,6 +108,12 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     marginTop: 10, 
     marginBottom: 20,
   },
+  subtitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
   headerTitle: {
     fontSize: 26,
     fontWeight: "600",
@@ -97,7 +122,21 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   headerSubtitle: {
     fontSize: 14,
     color: isDarkMode ? "#999" : "#666",
-    marginTop: 4,
+    flex: 1,
+  },
+  headerAddButton: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "#4CAF50",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  headerAddText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   card: {
     backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
