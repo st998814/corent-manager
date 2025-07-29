@@ -23,6 +23,7 @@ export type PaymentItem = {
 
 export type RequestItem = {
   id: string;
+  host:string;
   type: string;
   description?: string;
   status: string;
@@ -37,12 +38,14 @@ export type RootStackParamList = {
   AddPayment: undefined;
   PaymentDetails: { paymentData: PaymentItem };
   AddRequest: undefined;
-  RequestDetails: { requestData: RequestItem };
+  RequestDetails: { 
+    requestData: RequestItem;
+    status: string;
+    onUpdateStatus: (requestId: string, newStatus: string) => void;
+  };
   JoinGroup: undefined;
   CreateGroup: undefined;
   Memberdetails:{ groupData: GroupItem };
-
-
 };
 
 function NavTabs() {

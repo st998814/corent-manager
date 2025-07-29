@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList,RequestItem } from "../navigation/BottomTabs";
+import { RootStackParamList } from "../navigation/BottomTabs";
 import { StackNavigationProp } from "@react-navigation/stack";
 import ListCard from "../components/ListCard";
-import ReturnButton from "../components/ReturnButton";
 import { useTheme } from "../context/ThemeContext";
-// interface RequestItem {
-//   id: string;
-//   type: string;
-//   description: string;
-//   status: "Pending" | "Approved" | "Rejected";
-// }
+
+
+
+interface RequestItem {
+  id: string;
+  type: string;
+  host: string;
+  description: string;
+  status: string;
+}
+
+
+
+
 type RequestScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "RequestDetails"
@@ -19,39 +26,69 @@ type RequestScreenNavigationProp = StackNavigationProp<
 export default function RequestScreen() {
   const { isDarkMode } = useTheme();
   const navigation = useNavigation<RequestScreenNavigationProp>();
+    const styles = createStyles(isDarkMode);
   const [requests, setRequests] = useState<RequestItem[]>([
+
     {
       id: "1",
       type: "Payment",
+      host:"steven",
       description: "請求分攤本月水電費（每人 $30）",
       status: "Pending",
     },
     {
       id: "2",
       type: "Cleaning",
+      host:"bob",
       description: "請求幫忙 7/28 負責廚房清潔",
-      status: "Approved",
+      status: "Pending",
     },
     {
       id: "3",
       type: "Repair",
+      host:"bob",
       description: "請求協助報修浴室燈泡",
+      status: "Approved",
+    },
+    {
+      id: "4",
+      type: "Payment",
+      host:"alice",
+      description: "請求分攤本月網路費（每人 $50）",
       status: "Pending",
     },
   ]);
 
   const handleAddRequest = () => {
-    // 之後可跳轉至新請求表單
     navigation.navigate("AddRequest" as never);
   };
 
-  const handleRequestDetails = (request: RequestItem) => {
-    navigation.navigate("RequestDetails", { requestData: request });
+  // 添加更新請求狀態的函數
+  const updateRequestStatus = (requestId: string, newStatus: string) => {
+    setRequests(prev => 
+      prev.map(req => 
+        req.id === requestId 
+          ? { ...req, status: newStatus }
+          : req
+      )
+    );
   };
 
-  const styles = createStyles(isDarkMode);
+  const handleRequestDetails = (request: RequestItem) => {
+    navigation.navigate("RequestDetails", { 
+      requestData: request,
+      status: request.status,
+      onUpdateStatus: updateRequestStatus, // 傳遞更新函數
+    });
+  };
+
+
+
+
+
 
   return (
+    
     <ScrollView style={styles.container}>
       {/* 標題 */}
       <View style={styles.header}>
@@ -59,18 +96,20 @@ export default function RequestScreen() {
       </View>
 
       {/* Request Cards */}
-            {requests.map((item) => (
-              <ListCard
-                key={item.id}
-                requestData={{
-                  id: item.id,
-                  type: item.type,
-                  description: item.description,
-                  status: item.status,
-                }}
-                onPress={() => handleRequestDetails(item)}
-              />
-            ))}
+      {requests.map((item) => (
+        <ListCard
+          key={item.id}
+          requestData={{
+            id: item.id,
+            host: item.host,
+            type: item.type,
+            description: item.description,
+            status: item.status,
+          }}
+          onPress={() => handleRequestDetails(item)}
+          
+        />
+      ))}
 
 
       {/* Add Request Button */}
@@ -86,7 +125,7 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     flex: 1,
     backgroundColor: isDarkMode ? "#1a1a1a" : "#fff",
     paddingHorizontal: 16,
-    paddingTop: 60,
+    paddingTop: 80,
   },
   header: {
     marginTop: 10,
@@ -97,18 +136,18 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     fontWeight: "600",
     color: isDarkMode ? "#fff" : "#000",
   },
-  card: {
-    backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-    elevation: 1,
-    shadowColor: isDarkMode ? "#fff" : "#000",
-    shadowOpacity: isDarkMode ? 0.1 : 0.05,
-    shadowRadius: 3,
-    borderWidth: isDarkMode ? 1 : 0,
-    borderColor: isDarkMode ? "#333" : "transparent",
-  },
+  // card: {
+  //   backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
+  //   borderRadius: 8,
+  //   padding: 16,
+  //   marginBottom: 12,
+  //   elevation: 1,
+  //   shadowColor: isDarkMode ? "#fff" : "#000",
+  //   shadowOpacity: isDarkMode ? 0.1 : 0.05,
+  //   shadowRadius: 3,
+  //   borderWidth: isDarkMode ? 1 : 0,
+  //   borderColor: isDarkMode ? "#333" : "transparent",
+  // },
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
