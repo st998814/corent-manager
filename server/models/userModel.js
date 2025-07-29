@@ -19,3 +19,7 @@ export const findUserById = (id) =>
 // function to list all users
 // compile to : SELECT * FROM "User"
 export const getAllUsers = () => prisma.user.findMany();
+
+
+
+

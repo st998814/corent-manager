@@ -27,14 +27,15 @@ export default function CreateGroupScreen() {
   const styles = createStyles(isDarkMode);
 
   const handleCreateGroup = async () => {
-    if (!groupName.trim()) {
-      Alert.alert('錯誤', '請輸入群組名稱');
-      return;
-    }
+
+    // if (!groupName.trim()) {
+    //   Alert.alert('錯誤', '請輸入群組名稱');
+    //   return;
+    // }
 
     setIsLoading(true);
     try {
-      const response = await axios.post('http://192.168.20.12:8080/api/groups', {
+      const response = await axios.post('http://192.168.20.12:8080/api/groups/create', {
         name: groupName.trim(),
         description: groupDescription.trim(),
       }, {
@@ -44,11 +45,24 @@ export default function CreateGroupScreen() {
         },
       });
 
+    //   if (!token){
+
+    //     console.log("No token")
+
+
+
+
+    //   };
+
+
+    
+      
+
       const { group } = response.data;
 
       Alert.alert(
         '群組創建成功！',
-        `群組名稱: ${group.name}\n驗證碼: ${group.code}\n\n請將驗證碼分享給其他成員，讓他們加入群組。`,
+        `群組名稱: ${group.name}\n Your Group ID: ${group.id}\n\n `,
         [
           {
             text: '確定',
@@ -67,6 +81,11 @@ export default function CreateGroupScreen() {
     }
   };
 
+
+
+
+
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>

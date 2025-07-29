@@ -2,17 +2,25 @@ import jwt from 'jsonwebtoken';
 
 export const authMiddleware = (req, res, next) => {
   try {
+
+
+    console.log('=== AUTH MIDDLEWARE 調試 ===');
+    console.log('請求方法:', req.method);
+    console.log('請求路徑:', req.path);
+    console.log('所有請求頭:', req.headers);
+    console.log('Authorization 頭:', req.headers.authorization);
+    console.log('============================');
     const authHeader = req.headers.authorization;
     
     if (!authHeader) {
       return res.status(401).json({
-        message: '缺少認證令牌'
+        message: 'missing token'
       });
     }
 
     if (!authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
-        message: '認證令牌格式錯誤'
+        message: 'format of token is incorrect'
       });
     }
 
