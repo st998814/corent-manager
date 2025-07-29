@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert
   
 } from "react-native";
 import { useUserStore } from "../store/useUserStore";
@@ -216,7 +217,7 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   header: {
     marginTop: 10, 
     marginBottom: 20,
-
+  },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
