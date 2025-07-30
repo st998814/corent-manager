@@ -10,9 +10,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ReturnButton from '../components/ReturnButton';
-import { useTheme } from '../context/ThemeContext';
-import { useUserStore } from '../store/useUserStore';
+import ReturnButton from '../../components/ReturnButton';
+import { useTheme } from '../../context/ThemeContext';
+import { useUserStore } from '../../store/useUserStore';
 import axios from 'axios';
 
 export default function CreateGroupScreen() {

@@ -8,14 +8,14 @@ import {
   Alert
   
 } from "react-native";
-import { useUserStore } from "../store/useUserStore";
+import { useUserStore } from "../../store/useUserStore";
 import { useNavigation } from "@react-navigation/native";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 import axios from "axios";
 
 // components
-import AddButtom from "../components/AddButton";
+import AddButtom from "../../components/AddButton";
 
 
 

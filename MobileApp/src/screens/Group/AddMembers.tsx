@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import axios from "axios";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import ReturnButton from "../components/ReturnButton";
-import { useTheme } from "../context/ThemeContext";
-import { useUserStore } from "../store/useUserStore";
+import ReturnButton from "../../components/ReturnButton";
+import { useTheme } from "../../context/ThemeContext";
+import { useUserStore } from "../../store/useUserStore";
 
 type RootStackParamList = {
   SmsVerification: {

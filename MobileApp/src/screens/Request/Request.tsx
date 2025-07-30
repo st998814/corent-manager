@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../navigation/BottomTabs";
+import { RootStackParamList } from "../../navigation/BottomTabs";
 import { StackNavigationProp } from "@react-navigation/stack";
-import ListCard from "../components/ListCard";
-import { useTheme } from "../context/ThemeContext";
+import ListCard from "../../components/ListCard";
+import { useTheme } from "../../context/ThemeContext";
 
 
 

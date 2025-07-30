@@ -13,13 +13,13 @@ import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useUserStore } from "./store/useUserStore";
 import SignupScreen from './screens/Signup';
-import AddMemberScreen from './screens/AddMembers';
+import AddMemberScreen from './screens/Group/AddMembers';
 import EditProfileScreen from './screens/EditProfile';
 import ProfileScreen from './screens/Profile';
 import PaymentDetailsScreen from './screens/PaymentDetails';
-import RequestDetailsScreen from './screens/RequestDetails';
+import RequestDetailsScreen from './screens/Request/RequestDetails';
 import JoinGroupScreen from './screens/JoinGroup';
-import CreateGroupScreen from './screens/CreateGroup';
+import CreateGroupScreen from './screens/Group/CreateGroup';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 

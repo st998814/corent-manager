@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
-import ReturnButton from "../components/ReturnButton";
-import { RootStackParamList, RequestItem } from "../navigation/BottomTabs";
+import ReturnButton from "../../components/ReturnButton";
+import { RootStackParamList, RequestItem } from "../../navigation/BottomTabs";
 
 type RequestDetailsRouteProp = RouteProp<RootStackParamList, 'RequestDetails'>;
 

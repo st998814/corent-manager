@@ -1,10 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EditProfileScreen from '../screens/EditProfile';
-import HomeScreen from '../screens/Dashboard';
+import HomeScreen from '../screens/Group/Dashboard';
 import ProfileScreen from '../screens/Profile';
 import PaymentScreen from '../screens/Payment';
-import RequestScreen from '../screens/Request';
+import RequestScreen from '../screens/Request/Request';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
