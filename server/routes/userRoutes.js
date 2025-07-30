@@ -1,10 +1,11 @@
 import express from 'express';
-import { getUserProfile } from '../controllers/authController.js';
-import { authMiddleware } from '../middleware/authMiddleware.js';
+import {displayAllUsers} from '../controllers/userController.js'; 
+
+
+
 
 const router = express.Router();
 
-// 獲取用戶資料
-router.get('/profile', authMiddleware, getUserProfile);
+router.get('/fetchAll', displayAllUsers);
 
 export default router;

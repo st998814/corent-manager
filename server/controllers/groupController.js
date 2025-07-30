@@ -1,101 +1,52 @@
-// const groups = [];  臨時存儲，實際應用中應使用資料庫
+const groups = []; // 臨時存儲，實際應用中應使用資料庫
 
-import { PrismaClient } from '@prisma/client';
-import { success } from 'zod';
-
-const prisma = new PrismaClient();
-
-
+// 生成 6 位數隨機驗證碼
 const generateGroupCode = () => {
   return Math.random().toString(36).substr(2, 6).toUpperCase();
 };
 
-// create group
- const createGroup = async (req, res) => {
-  console.log('🚀 createGroup 函數被調用');
-  console.log('用戶信息:', req.user);
-  console.log('請求數據:', req.body);
-
+// 創建群組
+const createGroup = async (req, res) => {
   try {
-
-
-
-
-    const userId = req.user.id; 
     const { name, description } = req.body;
+    const userId = req.user.id;
 
-    console.log(`用戶 ${userId} 嘗試創建群組: ${name}`);
-
-    // 輸入驗證
-    if (!name || !description) {
-      return res.status(400).json({ // 修正語法錯誤
-        message: "Both name and description are required"
-      });
-    }
-
-    // check if group is exisited
-    const existingGroup = await prisma.group.findFirst({ // 修正變數名和添加 const
-      where: { name }
-    });
-
-    if (existingGroup) {
-      return res.status(400).json({ // 添加 return
-        message: "Group name already exists"
-      });
-    }
-
+    const groupCode = generateGroupCode();
     
-
-    // 使用事務創建群組和成員關係
-    const result = await prisma.$transaction(async (tx) => {
-      // 1. 創建群組
-      const newGroup = await tx.group.create({ 
-        data: {
-          // 移除 id，讓它自動生成
-          name,
-          description,
-          ownerId: userId
+    const newGroup = {
+      id: Date.now().toString(),
+      name,
+      description,
+      code: groupCode,
+      createdBy: userId,
+      members: [
+        {
+          userId,
+          role: 'admin',
+          joinedAt: new Date(),
         }
-      });
+      ],
+      createdAt: new Date(),
+    };
 
-      console.log('✅ 群組創建成功:', newGroup);
-
-      // 2. 自動將群組創建者添加為成員（管理員角色）
-      const ownerMembership = await tx.member.create({
-        data: {
-          userId: userId,
-          groupId: newGroup.id,
-          role: 'ADMIN',
-          status: 'ACTIVE'
-        }
-      });
-
-      console.log('✅ 擁有者成員關係創建成功:', ownerMembership);
-
-      return newGroup;
-    });
-
-    console.log('✅ 群組創建完成');
+    groups.push(newGroup);
 
     res.status(201).json({
       success: true,
-      message: "Group created successfully",
+      message: '群組創建成功',
       group: {
-        id: result.id,
-        name: result.name,
-        description: result.description, // 修正屬性名
-        createdAt: result.createdAt
+        id: newGroup.id,
+        name: newGroup.name,
+        description: newGroup.description,
+        code: newGroup.code,
+        memberCount: newGroup.members.length,
       }
     });
-
   } catch (error) {
-    console.error('💥 創建群組時發生錯誤:', error);
-    console.error('錯誤堆疊:', error.stack);
-    
+    console.error('創建群組錯誤:', error);
     res.status(500).json({
       success: false,
-      message: "Failed to create group",
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      message: '創建群組時發生錯誤'
     });
   }
 };
@@ -184,88 +135,34 @@ const joinGroup = async (req, res) => {
   }
 };
 
-// 獲取群組成員資訊
-const getUserGroupMember = async (req, res) => {
-
-        console.log('=== getUserGroupMember 調試 ===');
-    console.log('用戶信息:', req.user);
+// 獲取用戶的群組列表
+const getUserGroups = async (req, res) => {
   try {
     const userId = req.user.id;
 
-     console.log('用戶 ID:', userId);
-     console.log('🔍 開始查詢用戶群組成員資訊...');
-
-    const userMemberships = await prisma.member.findMany({
-      where: { 
-        userId: userId,
-        status: 'ACTIVE'
-      },
-      include: {
-        group: {
-          include: {
-            owner: {
-              select: { id: true, name: true, email: true }
-            },
-            members: {  // ← 新增：包含所有成員資訊
-              where: { status: 'ACTIVE' },
-              include: {
-                user: {  // ← 新增：包含每個成員的用戶資訊
-                  select: { id: true, name: true, email: true }
-                }
-              },
-              orderBy: { joinedAt: 'asc' }
-            },
-            _count: {
-              select: { members: true }
-            }
-          }
-        }
-      }
-    });
-
-        console.log('✅ 查詢到的用戶群組數量:', userMemberships.length);
-    console.log('✅ 用戶群組詳情:', JSON.stringify(userMemberships, null, 2));
-
-    const groups = userMemberships.map(membership => ({
-      id: membership.group.id,
-      name: membership.group.name,
-      description: membership.group.description,
-      owner: membership.group.owner,
-      memberCount: membership.group._count.members,
-      userRole: membership.role, 
-      joinedAt: membership.createdAt,
-      // ← 新增：所有成員的詳細資訊
-      members: membership.group.members.map(member => ({
-        id: member.user.id,
-        name: member.user.name,
-        email: member.user.email,
-        role: member.role,
-        status: member.status,
-        joinedAt: member.createdAt,
-        isCurrentUser: member.user.id === userId  // 標記是否為當前用戶
-      }))
+    const userGroups = groups.filter(group => 
+      group.members.some(member => member.userId === userId)
+    ).map(group => ({
+      id: group.id,
+      name: group.name,
+      description: group.description,
+      memberCount: group.members.length,
+      role: group.members.find(member => member.userId === userId).role,
+      createdAt: group.createdAt,
     }));
 
-    // 返回資料
     res.json({
       success: true,
-      groups: groups,  // ← 改為 groups 而不是 group
-      totalCount: groups.length,
-      userId: userId
+      groups: userGroups
     });
-
   } catch (error) {
-    console.error("❌ 獲取群組成員資訊時發生錯誤:", error);
-    console.error("❌ 錯誤堆疊:", error.stack);
-    console.error("❌ 錯誤類型:", error.constructor.name);
-    
+    console.error('獲取群組列表錯誤:', error);
     res.status(500).json({
       success: false,
-      message: "Failed to fetch group members info"
+      message: '獲取群組列表時發生錯誤'
     });
   }
 };
-   
 
 // 獲取群組詳情
 const getGroupDetails = async (req, res) => {
@@ -322,6 +219,6 @@ export {
   createGroup,
   verifyGroupCode,
   joinGroup,
-  getUserGroupMember,
+  getUserGroups,
   getGroupDetails,
 };

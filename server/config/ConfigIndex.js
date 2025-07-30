@@ -1,50 +1,3 @@
-/**
- * Application Configuration Module for Corent Manager
- * 
- * This module handles the centralized configuration management for the entire application.
- * It provides type-safe environment variable validation and structured configuration access.
- * 
- * Key Features:
- * 
- * 1. Environment Variable Validation:
- *    - Uses Zod schema for strict type checking and validation
- *    - Provides default values for optional configurations
- *    - Transforms string values to appropriate types (numbers, booleans)
- *    - Validates required fields and format constraints
- * 
- * 2. Multi-Environment Support:
- *    - Development, Production, and Test environment configurations
- *    - Environment-specific validation rules
- *    - Production-specific required field validation
- * 
- * 3. Configuration Categories:
- *    - Application Settings (NODE_ENV, PORT, API_VERSION)
- *    - JWT Authentication (secrets, expiration times)
- *    - Security Settings (bcrypt rounds, rate limiting, login attempts)
- *    - SMS Integration (Twilio configuration for notifications)
- *    - Email Services (SMTP configuration for notifications)
- *    - Database Connections (PostgreSQL, Redis URLs)
- *    - Logging Configuration (levels, file rotation)
- * 
- * 4. Structured Export:
- *    - Groups related configurations into logical objects
- *    - Provides convenience properties (isProduction, isDevelopment)
- *    - Pre-validates service availability (SMS, database connections)
- * 
- * 5. Error Handling:
- *    - Comprehensive validation error reporting
- *    - Graceful degradation for optional services
- *    - Clear error messages for missing required configurations
- * 
- * Usage:
- * - Import this module to access validated configuration throughout the app
- * - All environment variables are type-safe and validated on startup
- * - Configuration errors will prevent application startup with clear messages
- * 
- * @author Corent Manager Team
- * @version 1.0.0
- */
-
 import dotenv from 'dotenv';
 import { z } from 'zod';
 
@@ -183,7 +136,5 @@ if (config.isDevelopment) {
   console.log(`  - SMS Enabled: ${appConfig.sms.enabled}`);
   console.log(`  - Log Level: ${config.LOG_LEVEL}`);
 }
-
-
 
 export default appConfig;
