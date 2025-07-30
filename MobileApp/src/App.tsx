@@ -12,6 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useUserStore } from "./store/useUserStore";
+//screens
 import SignupScreen from './screens/Signup';
 import AddMemberScreen from './screens/Group/AddMembers';
 import EditProfileScreen from './screens/EditProfile';
@@ -20,6 +21,7 @@ import PaymentDetailsScreen from './screens/PaymentDetails';
 import RequestDetailsScreen from './screens/Request/RequestDetails';
 import JoinGroupScreen from './screens/JoinGroup';
 import CreateGroupScreen from './screens/Group/CreateGroup';
+import AddRequestScreen from './screens/Request/AddRequest';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
@@ -101,8 +103,9 @@ function AppContent() {
               <Stack.Screen name="RequestDetails" component={RequestDetailsScreen} />
               <Stack.Screen name="JoinGroup" component={JoinGroupScreen} />
               <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
-            </>
+              <Stack.Screen name="AddRequest" component={AddRequestScreen}/>
             
+            </>
           ) : (
             
             <>
