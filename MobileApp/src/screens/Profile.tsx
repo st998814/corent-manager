@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
-    paddingTop: 80, // 添加 top padding 來補償移除的 header
+    paddingTop: 60, // 添加 top padding 來補償移除的 header
   },
   sectionTitle: {
     marginTop: 25,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     
 export default ProfileScreen;
 
-    function createStyles(isDarkMode: boolean) {
+  function createStyles(isDarkMode: boolean) {
       return StyleSheet.create({
         container: {
           flex: 1,

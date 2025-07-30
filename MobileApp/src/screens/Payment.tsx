@@ -7,7 +7,6 @@ import PaymentDetailsScreen from "./PaymentDetails";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList, PaymentItem } from "../navigation/BottomTabs"; 
-import { useTheme } from "../context/ThemeContext"; 
 
 type PaymentScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -15,7 +14,7 @@ type PaymentScreenNavigationProp = StackNavigationProp<
 >;
 
 export default function PaymentScreen() {
-  const { isDarkMode } = useTheme();
+
   const navigation = useNavigation<PaymentScreenNavigationProp>();
   const [payments, setPayments] = useState<PaymentItem[]>([
     { 
@@ -45,7 +44,7 @@ export default function PaymentScreen() {
     navigation.navigate("PaymentDetails", { paymentData: payment });
   };
 
-  const styles = createStyles(isDarkMode);
+ 
 
   return (
     <ScrollView style={styles.container}>
@@ -78,33 +77,30 @@ export default function PaymentScreen() {
   );
 }
 
-const createStyles = (isDarkMode: boolean) => StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: isDarkMode ? "#1a1a1a" : "#fff",
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
-    paddingTop: 80,
+    paddingTop: 60, // 添加 top padding 來補償移除的 header
   },
   header: {
-    marginTop: 10,
+    marginTop: 10, // 減少 marginTop，因為已經有 paddingTop
     marginBottom: 20,
   },
   headerTitle: {
     fontSize: 26,
     fontWeight: "600",
-    color: isDarkMode ? "#fff" : "#000",
   },
   card: {
-    backgroundColor: isDarkMode ? "#2a2a2a" : "#fff",
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
-    elevation: 1,
-    shadowColor: isDarkMode ? "#fff" : "#000",
-    shadowOpacity: isDarkMode ? 0.1 : 0.05,
+    elevation: 1, // Android
+    shadowColor: "#000", // iOS
+    shadowOpacity: 0.05,
     shadowRadius: 3,
-    borderWidth: isDarkMode ? 1 : 0,
-    borderColor: isDarkMode ? "#333" : "transparent",
   },
   cardHeader: {
     flexDirection: "row",
@@ -114,16 +110,15 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: isDarkMode ? "#fff" : "#000",
   },
   cardAmount: {
     fontSize: 16,
-    color: "#4CAF50",
+    color: "#4CAF50", // 綠色表示支付金額
     fontWeight: "600",
   },
   cardDueDate: {
     fontSize: 13,
-    color: isDarkMode ? "#999" : "#888",
+    color: "#888",
   },
   addButton: {
     alignItems: "center",

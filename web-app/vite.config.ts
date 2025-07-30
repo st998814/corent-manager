@@ -7,12 +7,12 @@ export default defineConfig({
   plugins: [react()],
 
   
-  //  ssr:{
+  // ssr:{
 
-  //   noExternal: {['./routes/authRoutes.js']}
+  //   noExternal: ['authRoutes.js']
 
 
 
-  //  }
+  // }
   
 })

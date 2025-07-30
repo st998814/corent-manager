@@ -19,7 +19,6 @@ type AddButtonProps = {
     onPress: (event: any) => void;
 };
 
-// Make sure you have a PNG version of your icon in the assets folder
 function AddButtom({ onPress }: AddButtonProps) {
 
 
@@ -43,14 +42,8 @@ function AddButtom({ onPress }: AddButtonProps) {
                 style = {styles.btn}
                 onPress={onPress}
                 >
-                    <Image 
-                    source={require("../assets/add_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png")} 
-                    style={styles.addIcon}
-                />
                 
-
-                
-                    
+                    <Image src={"MobileApp/src/assets/add_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"} style={styles.btn}/>
              
             </TouchableOpacity>
         </View>
@@ -82,32 +75,42 @@ export default AddButtom;
 
 
 const createStyles = (isDarkMode: boolean) => StyleSheet.create({
-    btnContainer: {
+
+    btnContainer:{
+
+
         flex: 1,
         justifyContent: 'flex-end',
         paddingBottom: 30,
+
     },
-    btn: {
+    btn:{
         justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        height: 56,
-        width: 56,
+        padding: 10,
+        height: 30,
+        width: '100%',
+        flexDirection: 'row',
         
-        borderRadius: 28,
-        elevation: 6,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.27,
-        shadowRadius: 4.65,
-        alignSelf: 'center',
-    },
-    addIcon: {
-        width: 24,
-        height: 24,
-        tintColor: '#fff',
+
+
+
+
+
     }
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+})

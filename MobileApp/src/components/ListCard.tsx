@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text,StyleSheet ,View} from 'react-native';
 import { useTheme } from "../context/ThemeContext";
+import { create } from 'zustand';
 
 
 
@@ -12,19 +13,9 @@ type PaymentData = {
 };
 type RequestData = {
   id: string;
-  host:string;
   type: string;
   description: string;
   status: string;
-};
-
-type GroupData = {
-  id: string;
-  
-  name: string;
-  email: string;
-  description?: string; // optional for future use
-  
 };
 
 
@@ -32,19 +23,20 @@ type GroupData = {
 type ListCardProps = {
   paymentData?: PaymentData;
   requestData?: RequestData;
-  groupData?: GroupData; // optional for future use
   style?: object; // optional style prop for custom styling
   onPress: () => void;
   disabled?: boolean;
 };
 
 
-export default function ListCard({ groupData,paymentData, requestData, onPress, disabled = false }: ListCardProps) {
+export default function ListCard({ paymentData, requestData, onPress, disabled = false }: ListCardProps) {
 const { isDarkMode } = useTheme();
-const styles = createStyles(isDarkMode);
 const isPaymentCard = !!paymentData;
-  const data = paymentData || requestData || groupData;
+  const data = paymentData || requestData;
 
+    const styles = createStyles(isDarkMode);
+
+  
   if (!data) {
     return null; // 如果沒有資料就不渲染
   }
@@ -63,31 +55,14 @@ const isPaymentCard = !!paymentData;
           <Text style={styles.cardAmount}>${paymentData.amount}</Text>
         </View>
       )}
-        {/* request card */}
         {!isPaymentCard && requestData && (
-            <>
             <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>{requestData.type}</Text>
             <Text style={styles.cardStatus}>{requestData.status}</Text>
             </View>
-            <Text style={styles.cardHost}>{requestData.host}</Text>
-            </>
         )}
-       
-        {!isPaymentCard && !requestData && groupData && (
-          <>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>{groupData.name}</Text>
-              <Text style={styles.cardStatus}>{groupData.email}</Text>
-            </View>
-   
-          </>
-        )}
-        <Text style={styles.cardDescription}>
-            {isPaymentCard ? paymentData.description : requestData?.description || groupData?.description || "No description available"}
-
-        </Text>
-
+      <Text style={styles.cardDescription}>{data.description}</Text>
+      
     </TouchableOpacity>
   );
 }
@@ -108,38 +83,26 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
   cardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5,
-  },
-  statusContainer: {
-    alignItems: "flex-end",
-    flex: 1,
+    marginBottom: 6,
   },
   cardTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: isDarkMode ? "#fff" : "#000",
   },
 
   cardDescription: {
     fontSize: 13,
-    color: isDarkMode ? "#999" : "#888",
+    color: "#888",
   },
 
   cardAmount: {
     fontSize: 16,
-    color: "#4CAF50",
+    color: "#4CAF50", // 綠色表示支付金額
     fontWeight: "600",
   },
   cardStatus: {
     fontSize: 14,
     fontWeight: "600",
-    color: isDarkMode ? "#fff" : "#000",
   },
-  cardHost: {
-    fontSize: 12,
-    color: isDarkMode ? "#999" : "#666",
-    marginBottom: 6,
-    fontWeight: "500",
-  }
 });
 

@@ -4,7 +4,7 @@ import express from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import appConfig from './config/index.js';
+import appConfig from './config/ConfigIndex.js';
 import { generalRateLimit } from './middleware/rateLimiter.js';
 import { validateContentType, validateSecurityHeaders } from './middleware/validation.js';
 import logger, { logApiRequest, logError } from './utils/logger.js';
@@ -91,12 +91,12 @@ app.get('/health', (req, res) => {
 });
 
 // API路由
-const apiVersion = appConfig.API_VERSION;
-app.use(`/api/${apiVersion}/auth`, authRoutes);
-app.use(`/api/${apiVersion}/auth`, profileRoutes);
-app.use(`/api/${apiVersion}/users`, userRoutes);
-app.use(`/api/${apiVersion}/members`, memberRoutes);
-app.use(`/api/${apiVersion}/groups`, groupRoutes);
+// const apiVersion = appConfig.API_VERSION;
+// app.use(`/api/${apiVersion}/auth`, authRoutes);
+// app.use(`/api/${apiVersion}/auth`, profileRoutes);
+// app.use(`/api/${apiVersion}/users`, userRoutes);
+// app.use(`/api/${apiVersion}/members`, memberRoutes);
+// app.use(`/api/${apiVersion}/groups`, groupRoutes);
 
 // 兼容舊版API路由
 app.use('/api/auth', authRoutes);
@@ -118,14 +118,14 @@ app.get('/', (req, res) => {
 });
 
 // 404 處理
-app.use('*', (req, res) => {
-  res.status(404).json({
-    error: 'Not Found',
-    message: '請求的資源不存在',
-    path: req.originalUrl,
-    timestamp: new Date().toISOString()
-  });
-});
+// app.use('*', (req, res) => {
+//   res.status(404).json({
+//     error: 'Not Found',
+//     message: '請求的資源不存在',
+//     path: req.originalUrl,
+//     timestamp: new Date().toISOString()
+//   });
+// });
 
 // 全局錯誤處理中間件
 app.use((error, req, res, next) => {

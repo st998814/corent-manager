@@ -9,9 +9,11 @@ type PrimaryButtonProps = {
   disabled?: boolean;
 };
 
-export default function PrimaryButton({ style,title, onPress, disabled = false }: PrimaryButtonProps) {
+export default function PrimaryButton({style, title, onPress, disabled = false }: PrimaryButtonProps) {
   return (
     <TouchableOpacity
+
+     // pass styele object   
       style={style}
       onPress={onPress}
       disabled={disabled}
