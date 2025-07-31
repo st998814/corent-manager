@@ -2,6 +2,8 @@ import { useState,useEffect } from 'react';
 import { StatusBar, StyleSheet, useColorScheme, View, Text ,Button} from 'react-native';
 import { StatusBarStyle } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PortalHost } from '@rn-primitives/portal';
+
 
 
 import NavTabs from './navigation/BottomTabs'
@@ -35,8 +37,11 @@ function App() {
     <ThemeProvider>
       <AppContent /> 
     </ThemeProvider>
+    
   );
 }
+
+
 
 function AppContent() {
 
@@ -113,12 +118,15 @@ function AppContent() {
               <Stack.Screen name="Signup" component={SignupScreen} />
 
             </>
+            
           )}
         </Stack.Navigator>
 
       </NavigationContainer>
       </GestureHandlerRootView>
+      <PortalHost />
     </View>
+   
   );
 }
 
