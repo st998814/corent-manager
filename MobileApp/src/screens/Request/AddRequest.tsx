@@ -90,7 +90,7 @@ const AddRequestScreen = ({ route, navigation }: AddRequestScreenProps) => {
                         type: requestType,
                         host: currentUser || 'Anonymous',
                         description: title, // 使用 title 作為 description
-                        status: 'pending',
+                        status: 'Pending', // 改為首字母大寫，與其他請求保持一致
                       };
                       
         console.log('📋 新建的請求:', newRequest);
