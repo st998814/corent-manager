@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState,useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigation/BottomTabs";
@@ -26,13 +26,17 @@ type RequestScreenNavigationProp = StackNavigationProp<
 export default function RequestScreen() {
   const { isDarkMode } = useTheme();
   const navigation = useNavigation<RequestScreenNavigationProp>();
-    const styles = createStyles(isDarkMode);
-  const [requests, setRequests] = useState<RequestItem[]>([
+  const styles = createStyles(isDarkMode);
+
+
+
+
+  const listOfRequests: RequestItem[] = [
 
     {
       id: "1",
       type: "Payment",
-      host:"steven",
+      host:"steven", // the guy who posted the request
       description: "請求分攤本月水電費（每人 $30）",
       status: "Pending",
     },
@@ -57,13 +61,26 @@ export default function RequestScreen() {
       description: "請求分攤本月網路費（每人 $50）",
       status: "Pending",
     },
-  ]);
+
+
+  ]
+
+  const [requestList, setRequestList] = useState<RequestItem[]>(listOfRequests);
+  const [requests, setRequests] = useState<RequestItem[]>();
+
+  
+  //to render a list of requests , and will re-render when requests state changes
+  useEffect(() => {
+    setRequests(requestList);
+   
+
+  }, [requestList]);
 
   const handleAddRequest = () => {
     navigation.navigate("AddRequest" as never);
   };
 
-  // 添加更新請求狀態的函數
+  // 
   const updateRequestStatus = (requestId: string, newStatus: string) => {
     setRequests(prev => 
       prev.map(req => 
@@ -72,6 +89,11 @@ export default function RequestScreen() {
           : req
       )
     );
+  };
+
+  const renderNewRequest = (newRequest: RequestItem) => {
+    setRequestList(prev => [...prev, newRequest]);
+    setRequests(prev => [...prev, newRequest]);
   };
 
   const handleRequestDetails = (request: RequestItem) => {
@@ -96,7 +118,7 @@ export default function RequestScreen() {
       </View>
 
       {/* Request Cards */}
-      {requests.map((item) => (
+      {requestList.map((item) => (
         <ListCard
           key={item.id}
           requestData={{

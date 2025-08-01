@@ -37,7 +37,11 @@ export type GroupItem = {
 export type RootStackParamList = {
   AddPayment: undefined;
   PaymentDetails: { paymentData: PaymentItem };
-  AddRequest: undefined;
+  AddRequest:  {
+    onRequestAdded?: (newRequest: RequestItem) => void;
+    currentUser?: string;
+    groupId?: string;
+  };
   RequestDetails: { 
     requestData: RequestItem;
     status: string;
