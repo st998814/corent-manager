@@ -66,20 +66,35 @@ export default function RequestScreen() {
   ]
 
   const [requestList, setRequestList] = useState<RequestItem[]>(listOfRequests);
-  const [requests, setRequests] = useState<RequestItem[]>();
+  const [requests, setRequests] = useState<RequestItem[]>(listOfRequests);
 
   
   //to render a list of requests , and will re-render when requests state changes
   useEffect(() => {
+    console.log('📋 RequestList 更新:', requestList);
     setRequests(requestList);
-   
-
   }, [requestList]);
 
-  const handleAddRequest = () => {
-    navigation.navigate("AddRequest" as never);
+  const renderNewRequest = (newRequest: RequestItem) => {
+    console.log('📥 收到新請求:', newRequest);
+    setRequestList(prev => {
+      const updated = [...prev, newRequest];
+      console.log('📋 更新後的 requestList:', updated);
+      return updated;
+    });
   };
 
+
+  const handleAddRequest = () => {
+    console.log('🚀 導航到 AddRequest 頁面');
+    console.log('📤 傳遞的回調函數:', renderNewRequest);
+    
+    navigation.navigate("AddRequest", {
+      onRequestAdded: renderNewRequest,
+      currentUser: 'steven',
+      groupId: 'house123'
+    });
+  };
   // 
   const updateRequestStatus = (requestId: string, newStatus: string) => {
     setRequests(prev => 
@@ -91,10 +106,6 @@ export default function RequestScreen() {
     );
   };
 
-  const renderNewRequest = (newRequest: RequestItem) => {
-    setRequestList(prev => [...prev, newRequest]);
-    setRequests(prev => [...prev, newRequest]);
-  };
 
   const handleRequestDetails = (request: RequestItem) => {
     navigation.navigate("RequestDetails", { 
