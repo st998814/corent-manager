@@ -70,6 +70,7 @@ export default function RequestScreen() {
 
   
   //to render a list of requests , and will re-render when requests state changes
+  // the requestList is the initial state, and will be updated when a new request is added
   useEffect(() => {
     console.log('📋 RequestList 更新:', requestList);
     setRequests(requestList);
@@ -97,7 +98,7 @@ export default function RequestScreen() {
   };
   // 
   const updateRequestStatus = (requestId: string, newStatus: string) => {
-    setRequests(prev => 
+    setRequestList(prev => 
       prev.map(req => 
         req.id === requestId 
           ? { ...req, status: newStatus }

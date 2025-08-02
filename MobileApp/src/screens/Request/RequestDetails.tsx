@@ -1,6 +1,6 @@
 
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -22,6 +22,10 @@ export default function RequestDetailsScreen() {
   const { requestData, onUpdateStatus } = route.params;
   const [currentRequest, setCurrentRequest] = useState(requestData);
 
+    useEffect(() => {
+    setCurrentRequest(requestData);
+  }, [requestData]);
+
   const handleApprove = () => {
     Alert.alert(
       "確認接受",
@@ -36,7 +40,9 @@ export default function RequestDetailsScreen() {
             setCurrentRequest(updatedRequest);
             onUpdateStatus(currentRequest.id, "Approved");
             Alert.alert("成功", "請求已被接受！");
-            navigation.goBack();
+            setTimeout(() => {
+                  navigation.goBack();
+                }, 200);
           }
         }
       ]
@@ -54,16 +60,21 @@ export default function RequestDetailsScreen() {
           style: "destructive",
           onPress: () => {
             const updatedRequest = { ...currentRequest, status: "Rejected" };
+            console.log('🔍 更新請求狀態:', updatedRequest);
             setCurrentRequest(updatedRequest);
             onUpdateStatus(currentRequest.id, "Rejected");
             Alert.alert("已拒絕", "請求已被拒絕。");
-            navigation.goBack();
+            setTimeout(() => {
+                  navigation.goBack();
+                }, 200);
           }
         }
       ]
     );
   };
   return(
+    console.log('🔍 當前請求數據:', currentRequest),
+
           <ScrollView style={styles.container}>
               <View style={styles.header}>
                   <ReturnButton />
@@ -124,6 +135,7 @@ export default function RequestDetailsScreen() {
 
                   {/* 當狀態不是 Pending 時顯示狀態資訊 */}
                   {currentRequest.status !== "Pending" && (
+                  
                     <View style={styles.statusInfo}>
                       <Text style={styles.statusText}>
                         此請求已經被 {currentRequest.status === "Approved" ? "接受" : "拒絕"}
