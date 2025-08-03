@@ -6,6 +6,7 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import ReturnButton from "../../components/ReturnButton";
 import { RootStackParamList, RequestItem } from "../../navigation/BottomTabs";
+import {useTheme} from "../../context/ThemeContext";
 
 type RequestDetailsRouteProp = RouteProp<RootStackParamList, 'RequestDetails'>;
 
@@ -19,6 +20,8 @@ type RequestDetailsRouteProp = RouteProp<RootStackParamList, 'RequestDetails'>;
 export default function RequestDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute<RequestDetailsRouteProp>();
+  const {isDarkMode} = useTheme();
+  const styles = createStyles(isDarkMode);
   const { requestData, onUpdateStatus } = route.params;
   const [currentRequest, setCurrentRequest] = useState(requestData);
 
@@ -165,11 +168,11 @@ export default function RequestDetailsScreen() {
 
 
 
-const styles = StyleSheet.create({
+const createStyles = (isDarkMode: boolean) => StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: "#f5f5f5",
+        backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
         paddingTop: 60,
     },
     header: {
@@ -183,9 +186,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginLeft: 16,
         flex: 1,
+        color:isDarkMode ? '#121212' : '#f5f5f5',
     },
     detailCard: {
-        backgroundColor: "#fff",
+        backgroundColor: isDarkMode ? '#121212' : '#f5f5f5',
         borderRadius: 12,
         padding: 20,
         shadowColor: "#000",
@@ -206,12 +210,12 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: "600",
-        color: "#666",
+        color: isDarkMode ? '#121212' : '#f5f5f5',
         marginBottom: 4,
     },
     value: {
         fontSize: 16,
-        color: "#333",
+        color: isDarkMode ? '#f5f5f5' : '#333',
     },
     amount: {
         fontSize: 20,
