@@ -1,3 +1,11 @@
+// this screen display a list of requests , which are sent by other users
+// and can be viewed by the current user
+
+// The request that current user added will be displayed in "me"(profile) Screen
+
+
+
+
 import React, { use, useState,useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -27,6 +35,8 @@ export default function RequestScreen() {
   const { isDarkMode } = useTheme();
   const navigation = useNavigation<RequestScreenNavigationProp>();
   const styles = createStyles(isDarkMode);
+
+  // 
 
 
 
