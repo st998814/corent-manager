@@ -182,7 +182,7 @@ const createStyles = (isDarkMode: boolean) => StyleSheet.create({
         paddingVertical: 8,
     },
     title: {
-        fontSize: 20,
+        fontSize: 19,
         fontWeight: "bold",
         marginLeft: 16,
         flex: 1,
