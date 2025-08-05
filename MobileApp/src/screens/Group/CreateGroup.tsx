@@ -35,7 +35,7 @@ export default function CreateGroupScreen() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post('http://192.168.20.12:8080/api/groups/create', {
+      const response = await axios.post('http://192.168.20.17:8080/api/groups/create', {
         name: groupName.trim(),
         description: groupDescription.trim(),
       }, {

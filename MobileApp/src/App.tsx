@@ -14,6 +14,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useUserStore } from "./store/useUserStore";
+import { API_URLS } from './config/api';
+import ApiTestService from './services/apiTest';
 //screens
 import SignupScreen from './screens/Signup';
 import AddMemberScreen from './screens/Group/AddMembers';
@@ -53,20 +55,24 @@ function AppContent() {
 
 
   useEffect(() => {
+  // 執行 API 健康檢查
+  ApiTestService.performHealthCheck();
+  
   const checkToken = async () => {
     const token = await AsyncStorage.getItem("token"); 
     console.log("Stored token:", token);
     
     if (token) {
       try {
-        const res = await axios.get("http://192.168.20.12:8080/api/auth/me", {
+        console.log('🔄 檢查 token 有效性，使用 API URL:', API_URLS.ME);
+        const res = await axios.get(API_URLS.ME, {
           headers: {
             'Content-Type': 'application/json',
            'Authorization': 'Bearer '+ token
           },
         });
 
-
+        console.log('✅ Token 驗證成功，用戶資料:', res.data);
         const user = res.data.user;
 
         setUser(user.id, user.username, token); 

@@ -1,4 +1,5 @@
-import React, { useState ,useEffect} from "react";
+import { API_URLS } from '../../config/api';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,6 +12,7 @@ import {
 import { useUserStore } from "../../store/useUserStore";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../context/ThemeContext";
+import { useState, useEffect } from 'react';
 
 import axios from "axios";
 
@@ -56,9 +58,9 @@ export default function GroupsScreen() {
   const fetchGroupInfo = async () => {
     setIsLoading(true);
     try {
-
+          console.log('🔄 獲取群組資訊，使用 API URL:', API_URLS.GROUP_INFO);
           const response = await axios.post( 
-        'http://192.168.20.12:8080/api/groups/groupinfo',
+        API_URLS.GROUP_INFO,
         {},
          
         {

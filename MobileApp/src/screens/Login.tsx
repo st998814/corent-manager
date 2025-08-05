@@ -21,6 +21,9 @@ import {
 import axios from "axios";
 import { useNavigation } from '@react-navigation/native';
 import { useUserStore } from '../store/useUserStore';
+import { API_URLS } from '../config/api';
+
+
 
 
 
@@ -40,14 +43,18 @@ export default function LoginScreen() {
 
   const handleLogin = async (email: string, password: string) => {
   try {
-    const res = await axios.post("http://192.168.20.12:8080/api/auth/login", {
+    console.log('🔄 嘗試登入，使用 API URL:', API_URLS.LOGIN);
+    
+    const res = await axios.post(API_URLS.LOGIN, {
       email,
       password,
     });
 
+    console.log('✅ 登入成功，回應:', res.data);
+
     // 1. 存 Token 到本地
     await AsyncStorage.setItem("token", res.data.token);
-    console.log("Saved token:", res.data.token);
+    console.log("💾 已保存 token:", res.data.token);
 
     // 2. 更新全局狀態（Zustand）
     const setUser = useUserStore.getState().setUser;
@@ -63,10 +70,24 @@ export default function LoginScreen() {
     Alert.alert("登入成功", "歡迎回來！");
 
   } catch (error: any) {
-   console.log("Login Error:", JSON.stringify(error, null, 2));
+    console.log("❌ 登入錯誤 - 詳細信息:", JSON.stringify(error, null, 2));
+    console.log("🌐 使用的 API URL:", API_URLS.LOGIN);
+    
+    let errorMessage = "登入失敗";
+    
+    if (error.code === 'NETWORK_ERROR' || error.message?.includes('Network')) {
+      errorMessage = "網路連線錯誤，請檢查網路連線或聯繫開發人員";
+    } else if (error.response?.status === 404) {
+      errorMessage = "API 端點不存在，請檢查伺服器設定";
+    } else if (error.response?.status === 500) {
+      errorMessage = "伺服器內部錯誤";
+    } else if (error.response?.data?.message) {
+      errorMessage = error.response.data.message;
+    }
+    
     Alert.alert(
-      "Login failed",
-      error.response?.data?.message || error.message || "Something went wrong"
+      "登入失敗",
+      errorMessage
     );
     setIsLoading(false);
   }

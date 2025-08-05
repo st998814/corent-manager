@@ -3,6 +3,7 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URLS } from '../config/api';
 import { StatusBar, StyleSheet, View, Text, Button, Switch, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { StatusBarStyle } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -28,13 +29,14 @@ function ProfileScreen() {
     useEffect(() => {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get('http://192.168.20.12:8080/api/auth/me', {
+          console.log('🔄 獲取用戶資料，使用 API URL:', API_URLS.ME);
+          const response = await axios.get(API_URLS.ME, {
             headers: {
               authorization: `Bearer ${token}`
             }
           });
 
-
+          console.log('✅ 用戶資料獲取成功:', response.data);
           setUserDetails({
                 name : response.data.user.name ,
 

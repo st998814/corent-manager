@@ -48,7 +48,7 @@ export default function AddMemberScreen() {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://192.168.20.12:8080/api/members/invite", {
+      const res = await axios.post("http://192.168.20.17:8080/api/members/invite", {
         name: name.trim(),
         phone: phone.trim(),
       }, {

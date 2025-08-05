@@ -35,7 +35,7 @@ export default function JoinGroupScreen() {
     setIsLoading(true);
     try {
       // 驗證群組代碼並獲取群組資訊
-      const response = await axios.get(`http://192.168.20.12:8080/api/groups/verify/${groupCode}`, {
+      const response = await axios.get(`http://192.168.20.17:8080/api/groups/verify/${groupCode}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export default function JoinGroupScreen() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`http://192.168.20.12:8080/api/groups/${groupInfo.id}/join`, {
+      const response = await axios.post(`http://192.168.20.17:8080/api/groups/${groupInfo.id}/join`, {
         code: groupCode,
       }, {
         headers: {

@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URLS } from '../config/api';
 
 function SignupScreen() {
       const [name, createName] = useState('');
@@ -41,10 +42,14 @@ function SignupScreen() {
       const handleSignup = async (name: string, email: string, password: string) => {
 
         try {
-                const res = await axios.post("http://192.168.20.12:8080/api/auth/register", {name,
+                console.log('🔄 嘗試註冊，使用 API URL:', API_URLS.SIGNUP);
+                
+                const res = await axios.post(API_URLS.SIGNUP, {name,
       email,
       password,
     });
+
+                console.log('✅ 註冊成功，回應:', res.data);
 
 
             // 3. 跳轉 Login
