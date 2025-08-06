@@ -18,9 +18,6 @@ const generateGroupCode = () => {
 
   try {
 
-
-
-
     const userId = req.user.id; 
     const { name, description } = req.body;
 

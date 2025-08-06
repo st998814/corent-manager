@@ -8,8 +8,8 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
+  id       Int    @id @default(autoincrement()) //can use UUID ->  @default(UUID())
+  name     String // in prisma , type "String" has it's own constrain (not null), use "String?" to accept null value.
   email    String @unique
   password String
   
