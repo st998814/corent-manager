@@ -37,7 +37,7 @@ const generateGroupCode = () => {
 
     if (existingGroup) {
       return res.status(400).json({ // 添加 return
-        message: "Group name already existt "
+        message: "Group name already exist "
       });
     }
 
